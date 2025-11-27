@@ -1,8 +1,1 @@
 @import "tailwindcss";
-
-.dark {
-  --bg: #0b1220;
-  --text: #e6eef8;
-  --muted: #9ca3af;
-  --card: #0f1724;
-}

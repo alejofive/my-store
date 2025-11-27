@@ -1,0 +1,46 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "name": "Camisa Blanca",
+      "price": 25.99,
+      "stock": 10,
+      "image": "/products/shirt.jpg"
+    },
+    {
+      "id": 2,
+      "name": "Zapatos Negros",
+      "price": 79.99,
+      "stock": 0,
+      "image": "/products/shoes.jpg"
+    },
+    {
+      "id": 3,
+      "name": "Gorra Azul",
+      "price": 15.5,
+      "stock": 25,
+      "image": "/products/hat.jpg"
+    },
+    {
+      "id": 4,
+      "name": "Gorra Azul",
+      "price": 15.5,
+      "stock": 25,
+      "image": "/products/hat.jpg"
+    },
+    {
+      "id": 5,
+      "name": "Sudadera Roja",
+      "price": 40,
+      "stock": 12,
+      "image": "/products/hoodie.jpg"
+    },
+    {
+      "id": 6,
+      "name": "Pantalón Negro",
+      "price": 55,
+      "stock": 3,
+      "image": "/products/pants.jpg"
+    }
+  ]
+}
