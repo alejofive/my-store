@@ -1,21 +1,21 @@
 'use client'
 
 interface ProductCardProps {
-  image: string
+  image?: string
   name: string
   price: number
   stock: number
+  urlImage?: string
 }
 
-export default function ProductCard({ image, name, price, stock }: ProductCardProps) {
+export default function ProductCard({ image, name, price, stock, urlImage }: ProductCardProps) {
   const agotado = stock === 0
+  const src = image && image.trim() ? image : urlImage && urlImage.trim() ? urlImage : null
 
   return (
     <div className='bg-white border border-slate-200 rounded-md p-4 shadow-sm hover:shadow-md transition relative'>
       {/* Imagen */}
-      <div className='w-full h-36 bg-gray-100 rounded-lg flex items-center justify-center overflow-hidden'>
-        <img src={image} alt={name} className='object-cover w-full h-full' />
-      </div>
+      <div className='w-full h-36 bg-gray-100 rounded-lg flex items-center justify-center overflow-hidden'>{src ? <img src={src} alt={name} className='object-cover w-full h-full' /> : <div className='text-sm text-slate-500'>Sin imagen</div>}</div>
 
       {/* Info */}
 

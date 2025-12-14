@@ -1,46 +1,43 @@
 {
   "products": [
     {
-      "id": 1,
-      "name": "Camisa Blanca",
+      "id": "1",
+      "name": "Doritos",
       "price": 25.99,
       "stock": 10,
-      "image": "/products/shirt.jpg"
+      "image": "",
+      "urlImage": "https://kioscovanvan.com/wp-content/uploads/2024/01/WhatsApp-Image-2024-01-10-at-17.45.54-scaled.jpeg"
     },
     {
-      "id": 2,
-      "name": "Zapatos Negros",
-      "price": 79.99,
-      "stock": 0,
-      "image": "/products/shoes.jpg"
+      "id": "c7f5",
+      "name": "Cheetos",
+      "price": 20,
+      "stock": 15,
+      "image": "https://www.foodbusinessnews.net/ext/resources/2024/01/25/Cheetos_Crunchy_Buffalo.webp?height=667&t=1706280074&width=1080"
     },
     {
-      "id": 3,
-      "name": "Gorra Azul",
-      "price": 15.5,
-      "stock": 25,
-      "image": "/products/hat.jpg"
-    },
-    {
-      "id": 4,
-      "name": "Gorra Azul",
-      "price": 15.5,
-      "stock": 25,
-      "image": "/products/hat.jpg"
-    },
-    {
-      "id": 5,
-      "name": "Sudadera Roja",
-      "price": 40,
+      "id": "928e",
+      "name": "Chiskesitos",
+      "price": 25,
       "stock": 12,
-      "image": "/products/hoodie.jpg"
+      "image": "",
+      "urlImage": "https://www.sigo.com.ve/images/thumbs/0010290_chiskesitos-munchy-450-gr_450.jpeg"
     },
     {
-      "id": 6,
-      "name": "Pantalón Negro",
-      "price": 55,
-      "stock": 3,
-      "image": "/products/pants.jpg"
+      "id": "2fe8",
+      "name": "asdasdasd",
+      "price": 123123,
+      "stock": 12,
+      "image": "",
+      "urlImage": ""
+    },
+    {
+      "id": "cbea",
+      "name": "Cheesquesito picante",
+      "price": 26,
+      "stock": 12,
+      "image": "",
+      "urlImage": "https://3liteimports.com/wp-content/uploads/2024/08/MUNCY-CHISKESITOS-TOCINETA-145GR.jpeg"
     }
   ]
 }
