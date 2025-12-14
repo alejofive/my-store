@@ -1,5 +1,6 @@
 import Navbar from '@/components/Navbar'
 import Sidebar from '@/components/Sidebar'
+
 import ReactQueryProvider from '../providers/ReactQueryProvider'
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
@@ -10,6 +11,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         <div className='w-full'>
           <Navbar />
           {children}
+
         </div>
       </ReactQueryProvider>
     </div>

@@ -3,24 +3,48 @@
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import CloudUploadIcon from '@mui/icons-material/CloudUpload'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 type ProductInput = {
   name: string
   price: number
   stock: number
-  image: string
   urlImage: string
+  image: string
+  details: {
+    packages: string
+    unitPackages: string
+    packageCost: string
+    basePrice: number
+    profitPerUnit: number
+    sold: number
+    totalProfit: number
+    totalCost: number
+    currency: 'COP' | 'USD'
+  }
 }
 
 export default function CreateProductModal({ open, onClose }: { open: boolean; onClose: () => void }) {
   const [name, setName] = useState('')
   const [price, setPrice] = useState('')
   const [stock, setStock] = useState('')
-  const [image, setImage] = useState('')
+  const [image, setImage] = useState<File | null>(null)
+  const [preview, setPreview] = useState<string | null>(null)
   const [urlImage, setUrlImage] = useState('')
+
+  const [packages, setPackages] = useState('')
+  const [unitsPerPackage, setUnitsPerPackage] = useState('')
+  const [packageCost, setPackageCost] = useState('')
+  const [profit, setProfit] = useState('')
+
+  const [unitPrice, setUnitPrice] = useState(0)
+  const [totalStock, setTotalStock] = useState(0)
+  const [totalCost, setTotalCost] = useState(0)
+
+  const [currency, setCurrency] = useState<'COP' | 'USD'>('COP')
   const [errors, setErrors] = useState<{ name?: string; price?: string; stock?: string }>({})
   const queryClient = useQueryClient()
+  const fileInputRef = useRef<HTMLInputElement | null>(null)
 
   // 🔥 API function
   const createProduct = async (product: ProductInput) => {
@@ -37,6 +61,57 @@ export default function CreateProductModal({ open, onClose }: { open: boolean; o
     return res.json()
   }
 
+  const normalizeNumber = (value: string) => {
+    if (!value) return 0
+
+    if (currency === 'COP') {
+      // 20.500 → 20500
+      return Number(value.replace(/\./g, ''))
+    }
+
+    // USD → normal decimal
+    return Number(value)
+  }
+
+  useEffect(() => {
+    const p = normalizeNumber(packages)
+    const u = normalizeNumber(unitsPerPackage)
+    const c = normalizeNumber(packageCost)
+
+    if (p > 0 && u > 0 && c > 0) {
+      const priceUnit = c / u
+      setUnitPrice(priceUnit)
+
+      const stockUnits = p * u
+      setTotalStock(stockUnits)
+
+      setTotalCost(p * c)
+    }
+  }, [packages, unitsPerPackage, packageCost])
+
+  const formatCurrency = (value: number) => {
+    if (value === null || value === undefined || Number.isNaN(value)) return ''
+
+    if (currency === 'COP') {
+      return new Intl.NumberFormat('es-CO', {
+        style: 'currency',
+        currency: 'COP',
+        maximumFractionDigits: 2,
+      }).format(value)
+    }
+
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      maximumFractionDigits: 2,
+    }).format(value)
+  }
+
+  const formatNumber = (value: number) => {
+    if (value === null || value === undefined || Number.isNaN(value)) return ''
+    return new Intl.NumberFormat(currency === 'COP' ? 'es-CO' : 'en-US').format(value)
+  }
+
   // 🔥 useMutation correctamente tipado
   const mutation = useMutation({
     mutationFn: createProduct,
@@ -49,32 +124,61 @@ export default function CreateProductModal({ open, onClose }: { open: boolean; o
 
   const resetForm = () => {
     setName('')
-    setPrice('')
     setStock('')
-    setImage('')
+    setProfit('')
+    setImage(null)
     setUrlImage('')
     setErrors({})
+    if (fileInputRef.current) fileInputRef.current.value = ''
+  }
+
+  const handleUploadImage = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+    setImage(file)
+
+    const reader = new FileReader()
+    reader.onloadend = () => setPreview(reader.result as string)
+    reader.readAsDataURL(file)
   }
 
   const handleSubmit = () => {
-    const newErrors: { name?: string; price?: string; stock?: string } = {}
+    const inputValue = normalizeNumber(profit)
 
-    if (!name.trim()) newErrors.name = 'El nombre es requerido'
-    if (price === '' || isNaN(Number(price))) newErrors.price = 'Debe ser un número válido'
-    if (stock === '' || isNaN(Number(stock))) newErrors.stock = 'Debe ser un número válido'
-
-    if (Object.keys(newErrors).length > 0) {
-      setErrors(newErrors)
-      return
-    }
+    // We treat the input as the final product price.
+    // If user did not enter a final price (0/empty), use unitPrice as final price.
+    const finalPrice = inputValue > 0 ? inputValue : unitPrice
+    const profitValue = finalPrice - unitPrice
 
     mutation.mutate({
       name,
-      price: Number(price),
-      stock: Number(stock),
-      image,
+      price: finalPrice,
+      stock: totalStock,
+      image: image ? URL.createObjectURL(image) : '',
       urlImage,
+
+      details: {
+        packages: packages,
+        unitPackages: unitsPerPackage,
+        packageCost: packageCost,
+        basePrice: unitPrice,
+        profitPerUnit: profitValue,
+        sold: 0,
+        totalProfit: 0,
+        totalCost: totalCost,
+        currency: currency,
+      },
     })
+  }
+
+  const formatThousands = (value: string) => {
+    // Remove all non-digits
+    const numeric = value.replace(/\D/g, '')
+
+    if (!numeric) return ''
+
+    // Format with points as thousands separator
+    return numeric.replace(/\B(?=(\d{3})+(?!\d))/g, '.')
   }
 
   return (
@@ -95,7 +199,7 @@ export default function CreateProductModal({ open, onClose }: { open: boolean; o
                 </p>
                 <p className='text-xs'>SVG, PNG, JPG (MAX. 800x400px)</p>
               </div>
-              <input id='dropzone-file' type='file' className='hidden' />
+              <input ref={fileInputRef} id='dropzone-file' type='file' className='hidden' onChange={handleUploadImage} />
             </label>
           </div>
 
@@ -104,18 +208,60 @@ export default function CreateProductModal({ open, onClose }: { open: boolean; o
             <input type='text' placeholder='Nombre del producto' className={`w-full border shadow rounded px-3 py-2 ${errors.name ? 'border-red-500' : 'border-slate-200'}`} value={name} onChange={e => setName(e.target.value)} />
             {errors.name && <p className='text-red-600 text-sm mt-1'>{errors.name}</p>}
           </div>
-
-          <div>
-            <input type='number' placeholder='Precio' className={`w-full border shadow rounded px-3 py-2 ${errors.price ? 'border-red-500' : 'border-slate-200'}`} value={price} onChange={e => setPrice(e.target.value)} />
-            {errors.price && <p className='text-red-600 text-sm mt-1'>{errors.price}</p>}
-          </div>
-
+          {/*
           <div>
             <input type='number' placeholder='Stock' className={`w-full border shadow rounded px-3 py-2 ${errors.stock ? 'border-red-500' : 'border-slate-200'}`} value={stock} onChange={e => setStock(e.target.value)} />
             {errors.stock && <p className='text-red-600 text-sm mt-1'>{errors.stock}</p>}
-          </div>
+          </div> */}
 
           <input type='text' placeholder='URL de imagen' className='w-full border border-slate-200 shadow rounded px-3 py-2' value={urlImage} onChange={e => setUrlImage(e.target.value)} />
+
+          <div>
+            <select value={currency} onChange={e => setCurrency(e.target.value as 'COP' | 'USD')} className='w-full border shadow rounded px-3 py-2'>
+              <option value='COP'>🇨🇴 COP - Pesos</option>
+              <option value='USD'>🇺🇸 USD - Dólares</option>
+            </select>
+          </div>
+
+          <div>
+            <input type='number' placeholder='Cantidad de paquetes comprados' value={packages} onChange={e => setPackages(formatThousands(e.target.value))} className='w-full border shadow rounded px-3 py-2' />
+          </div>
+
+          <div>
+            <input type='number' placeholder='Unidades por paquete' value={unitsPerPackage} onChange={e => setUnitsPerPackage(formatThousands(e.target.value))} className='w-full border shadow rounded px-3 py-2' />
+          </div>
+
+          <div>
+            <input type='number' placeholder='Costo del paquete' value={packageCost} onChange={e => setPackageCost(formatThousands(e.target.value))} className='w-full border shadow rounded px-3 py-2' />
+          </div>
+          <div>
+            <input type='number' placeholder='Precio final del producto' value={profit} onChange={e => setProfit(formatThousands(e.target.value))} className='w-full border shadow rounded px-3 py-2' />
+
+            {profit !== '' &&
+              (() => {
+                const inputValue = normalizeNumber(profit)
+                const finalPrice = inputValue > 0 ? inputValue : unitPrice
+                const effectiveProfit = finalPrice - unitPrice
+                return (
+                  <p className='text-sm text-slate-700 mt-2'>
+                    Ganancia por unidad: <strong>{formatCurrency(effectiveProfit)}</strong>
+                    <span className='ml-2 text-xs text-slate-500'> (Precio final: {formatCurrency(finalPrice)})</span>
+                  </p>
+                )
+              })()}
+          </div>
+
+          <div className='bg-slate-100 p-3 rounded'>
+            <p>
+              Precio por unidad (costo real): <strong>{formatCurrency(unitPrice)}</strong>
+            </p>
+            <p>
+              Stock total (unidades): <strong>{formatNumber(totalStock)}</strong>
+            </p>
+            <p>
+              Costo total de compra: <strong>{formatCurrency(totalCost)}</strong>
+            </p>
+          </div>
         </div>
 
         <DialogFooter>

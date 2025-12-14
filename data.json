@@ -1,43 +1,42 @@
 {
   "products": [
     {
-      "id": "1",
+      "id": "4564",
       "name": "Doritos",
-      "price": 25.99,
-      "stock": 10,
+      "price": 2500,
+      "stock": 24,
       "image": "",
-      "urlImage": "https://kioscovanvan.com/wp-content/uploads/2024/01/WhatsApp-Image-2024-01-10-at-17.45.54-scaled.jpeg"
+      "urlImage": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ3TcVktqKVVlZrKtABQfInMx1NbNUF3T6rVQ&s",
+      "details": {
+        "packages": "2",
+        "unitPackages": "12",
+        "packageCost": "16.000",
+        "basePrice": 1333.3333333333333,
+        "profitPerUnit": 1166.6666666666667,
+        "sold": 0,
+        "totalProfit": 0,
+        "totalCost": 32000,
+        "currency": "COP"
+      }
     },
     {
-      "id": "c7f5",
-      "name": "Cheetos",
-      "price": 20,
-      "stock": 15,
-      "image": "https://www.foodbusinessnews.net/ext/resources/2024/01/25/Cheetos_Crunchy_Buffalo.webp?height=667&t=1706280074&width=1080"
-    },
-    {
-      "id": "928e",
-      "name": "Chiskesitos",
-      "price": 25,
-      "stock": 12,
+      "id": "dcd9",
+      "name": "pepito",
+      "price": 2000,
+      "stock": 300,
       "image": "",
-      "urlImage": "https://www.sigo.com.ve/images/thumbs/0010290_chiskesitos-munchy-450-gr_450.jpeg"
-    },
-    {
-      "id": "2fe8",
-      "name": "asdasdasd",
-      "price": 123123,
-      "stock": 12,
-      "image": "",
-      "urlImage": ""
-    },
-    {
-      "id": "cbea",
-      "name": "Cheesquesito picante",
-      "price": 26,
-      "stock": 12,
-      "image": "",
-      "urlImage": "https://3liteimports.com/wp-content/uploads/2024/08/MUNCY-CHISKESITOS-TOCINETA-145GR.jpeg"
+      "urlImage": "https://curda24.com/wp-content/uploads/2017/04/Pepito_150g_452781-01.webp",
+      "details": {
+        "packages": "20",
+        "unitPackages": "15",
+        "packageCost": "12.000",
+        "basePrice": 800,
+        "profitPerUnit": 1200,
+        "sold": 0,
+        "totalProfit": 0,
+        "totalCost": 240000,
+        "currency": "COP"
+      }
     }
   ]
 }

@@ -6,12 +6,15 @@ import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos'
 import SearchIcon from '@mui/icons-material/Search'
 import { useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
+import EditProductModal from './EditProductModal'
 import ProductCard from './ProductCard'
 
 export default function ProdDashboard() {
   const [search, setSearch] = useState('')
   const [currentPage, setCurrentPage] = useState(1)
-  const itemsPerPage = 5
+  const [openEditModal, setOpenEditModal] = useState(false)
+  const [selectedProduct, setSelectedProduct] = useState<Products | null>(null)
+  const itemsPerPage = 6
 
   const {
     data: products = [],
@@ -61,10 +64,26 @@ export default function ProdDashboard() {
         <SearchIcon className='absolute left-3 top-[10px] text-slate-400' />
       </div>
 
+      <EditProductModal
+        open={openEditModal}
+        onClose={() => {
+          setOpenEditModal(false)
+          setSelectedProduct(null)
+        }}
+        product={selectedProduct}
+      />
+
       {/* 🛍 Grid de productos */}
       <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6'>
         {currentProducts.map(product => (
-          <ProductCard key={product.id} {...product} />
+          <ProductCard
+            key={product.id}
+            {...product}
+            onEdit={p => {
+              setSelectedProduct(p)
+              setOpenEditModal(true)
+            }}
+          />
         ))}
 
         {filteredProducts.length === 0 && <p className='text-center text-slate-500 col-span-full'>No hay productos</p>}

@@ -1,6 +1,7 @@
 'use client'
 
 import CreateProductModal from '@/components/CreateProductModal'
+import EditProductModal from '@/components/EditProductModal'
 import ProductCard from '@/components/ProductCard'
 import { Products } from '@/interfaces/products'
 import AddIcon from '@mui/icons-material/Add'
@@ -13,6 +14,8 @@ import { useState } from 'react'
 const page = () => {
   const [search, setSearch] = useState('')
   const [openModal, setOpenModal] = useState(false)
+  const [openEditModal, setOpenEditModal] = useState(false)
+  const [selectedProduct, setSelectedProduct] = useState<Products | null>(null)
   const [currentPage, setCurrentPage] = useState(1)
   const itemsPerPage = 9
 
@@ -27,6 +30,8 @@ const page = () => {
       return res.json()
     },
   })
+
+  console.log(products);
 
   if (isLoading) return <p>Cargando productos...</p>
   if (error) return <p>Error al cargar productos</p>
@@ -72,11 +77,26 @@ const page = () => {
 
       {/* ✅ Modal */}
       <CreateProductModal open={openModal} onClose={() => setOpenModal(false)} />
+      <EditProductModal
+        open={openEditModal}
+        onClose={() => {
+          setOpenEditModal(false)
+          setSelectedProduct(null)
+        }}
+        product={selectedProduct}
+      />
 
       {/* 🛍 Grid de productos */}
       <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-6 px-5'>
         {currentProducts.map(product => (
-          <ProductCard key={product.id} {...product} />
+          <ProductCard
+            key={product.id}
+            {...product}
+            onEdit={p => {
+              setSelectedProduct(p)
+              setOpenEditModal(true)
+            }}
+          />
         ))}
 
         {filteredProducts.length === 0 && <p className='text-center text-slate-500 col-span-full'>No hay productos</p>}
