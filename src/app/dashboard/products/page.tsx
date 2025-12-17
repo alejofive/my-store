@@ -1,8 +1,8 @@
 'use client'
 
-import CreateProductModal from '@/components/CreateProductModal'
-import EditProductModal from '@/components/EditProductModal'
-import ProductCard from '@/components/ProductCard'
+import CreateProductModal from '@/components/product/CreateProductModal'
+import EditProductModal from '@/components/product/EditProductModal'
+import ProductCard from '@/components/product/ProductCard'
 import { Products } from '@/interfaces/products'
 import AddIcon from '@mui/icons-material/Add'
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos'
@@ -31,10 +31,7 @@ const page = () => {
     },
   })
 
-  console.log(products);
 
-  if (isLoading) return <p>Cargando productos...</p>
-  if (error) return <p>Error al cargar productos</p>
 
   // Filtrar productos
   const filteredProducts = products.filter(product => product.name.toLowerCase().includes(search.toLowerCase()))
@@ -51,6 +48,12 @@ const page = () => {
   const handleNext = () => {
     if (currentPage < totalPages) setCurrentPage(currentPage + 1)
   }
+
+    console.log(products)
+
+    if (isLoading) return <p>Cargando productos...</p>
+    if (error) return <p>Error al cargar productos</p>
+    
   return (
     <div className='space-y-4'>
       {/* 🔎 Buscador */}

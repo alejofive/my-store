@@ -6,8 +6,8 @@ import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos'
 import SearchIcon from '@mui/icons-material/Search'
 import { useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
-import EditProductModal from './EditProductModal'
-import ProductCard from './ProductCard'
+import EditProductModal from './product/EditProductModal'
+import ProductCard from './product/ProductCard'
 
 export default function ProdDashboard() {
   const [search, setSearch] = useState('')
