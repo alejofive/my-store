@@ -3,7 +3,9 @@
 import CreateProductModal from '@/components/product/CreateProductModal'
 import EditProductModal from '@/components/product/EditProductModal'
 import ProductCard from '@/components/product/ProductCard'
+
 import { Products } from '@/interfaces/products'
+
 import AddIcon from '@mui/icons-material/Add'
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos'
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos'
@@ -31,8 +33,6 @@ const page = () => {
     },
   })
 
-
-
   // Filtrar productos
   const filteredProducts = products.filter(product => product.name.toLowerCase().includes(search.toLowerCase()))
 
@@ -49,16 +49,14 @@ const page = () => {
     if (currentPage < totalPages) setCurrentPage(currentPage + 1)
   }
 
-    console.log(products)
+  if (isLoading) return <p>Cargando productos...</p>
+  if (error) return <p>Error al cargar productos</p>
 
-    if (isLoading) return <p>Cargando productos...</p>
-    if (error) return <p>Error al cargar productos</p>
-    
   return (
     <div className='space-y-4'>
       {/* 🔎 Buscador */}
       <div className='mt-5 px-5 w-full flex justify-between'>
-        <div className='w-32'></div>
+        <div className=''></div>
         <div className='relative'>
           <input
             type='text'

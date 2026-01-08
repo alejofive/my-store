@@ -3,6 +3,7 @@
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos'
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos'
 import DashboardIcon from '@mui/icons-material/Dashboard'
+import GroupIcon from '@mui/icons-material/Group'
 import InventoryIcon from '@mui/icons-material/Inventory'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
@@ -11,6 +12,7 @@ import { useState } from 'react'
 const menuItems = [
   { label: 'Dashboard', icon: <DashboardIcon />, href: '/dashboard' },
   { label: 'Productos', icon: <InventoryIcon />, href: '/dashboard/products' },
+  { label: 'Customers', icon: <GroupIcon />, href: '/dashboard/customers' },
 ]
 
 export default function Sidebar() {

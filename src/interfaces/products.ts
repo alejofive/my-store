@@ -17,3 +17,16 @@ export type Products = {
     currency: 'COP' | 'USD'
   }
 }
+
+export type Movement = {
+  id: string
+  date: string
+  concept: string
+  amount: number // + debe / - paga
+}
+
+export type Person = {
+  id: string
+  name: string
+  movements: Movement[]
+}
