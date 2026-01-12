@@ -1,5 +1,7 @@
 import { Movement, Person } from '@/interfaces/products'
 import AddIcon from '@mui/icons-material/Add'
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
+import ArrowRightIcon from '@mui/icons-material/ArrowRight'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import PaidIcon from '@mui/icons-material/Paid'
 import SearchIcon from '@mui/icons-material/Search'
@@ -29,6 +31,8 @@ const TableCustomers = () => {
       return res.json()
     },
   })
+
+  console.log(people)
 
   const getTotals = (movements: Movement[]) => {
     const totalDebe = movements.filter(m => m.amount > 0).reduce((s, m) => s + m.amount, 0)
@@ -65,7 +69,7 @@ const TableCustomers = () => {
         </button>
       </div>
 
-      <div className='max-w-4xl mx-auto mt-10 bg-white rounded-lg border border-slate-200'>
+      <div className='max-w-4xl mx-auto mt-10 bg-white rounded-md border border-slate-200'>
         <table className='w-full border-collapse'>
           <thead className='bg-slate-100 text-slate-700 text-sm'>
             <tr>
@@ -88,11 +92,11 @@ const TableCustomers = () => {
               return (
                 <React.Fragment key={person.id}>
                   {/* ROW PERSONA */}
-                  <tr className='border-t hover:bg-slate-50 '>
+                  <tr className='border-t hover:bg-slate-50 border-slate-300'>
                     <td onClick={() => togglePerson(person.id)} className='text-center text-slate-500 cursor-pointer'>
-                      {isOpen ? '▼' : '▶'}
+                      {isOpen ? <ArrowDropDownIcon fontSize='large' /> : <ArrowRightIcon fontSize='large' />}
                     </td>
-                    <td className='p-3 font-medium'>{person.name}</td>
+                    <td className='p-3 font-medium text-slate-900'>{person.name}</td>
                     <td className='p-3 text-right'>${totalDebe.toFixed(2)}</td>
                     <td className='p-3 text-right'>${totalAbono.toFixed(2)}</td>
                     <td className={`p-3 text-right font-semibold ${saldo > 0 ? 'text-red-600' : saldo === 0 ? 'text-green-600' : 'text-blue-600'}`}>${saldo.toFixed(2)}</td>
@@ -108,7 +112,7 @@ const TableCustomers = () => {
 
                   {/* HISTORIAL */}
                   {isOpen && (
-                    <tr className='bg-slate-50 border-t'>
+                    <tr className='bg-slate-50 border-t border-slate-300'>
                       <td colSpan={6} className='p-4'>
                         <table className='w-full text-sm'>
                           <thead className='text-slate-500'>
@@ -121,7 +125,7 @@ const TableCustomers = () => {
                           </thead>
                           <tbody>
                             {person.movements.map(m => (
-                              <tr key={m.id} className='border-t'>
+                              <tr key={m.id} className='border-t border-slate-300'>
                                 <td className='py-2'>{m.date}</td>
                                 <td className='py-2'>{m.concept}</td>
                                 <td className='py-2 text-right text-red-600'>{m.amount > 0 ? `$${m.amount}` : '—'}</td>
@@ -141,7 +145,7 @@ const TableCustomers = () => {
       </div>
 
       <CreateCustomersModal onAdd={() => {}} open={openModal} onClose={() => setOpenModal(false)} />
-      <PayCustomersModal onAdd={() => {}} open={openModalPay} onClose={() => setOpenModalPay(false)} person={selectedPerson} />
+      <PayCustomersModal onAdd={() => {}} open={openModalPay} onClose={handleClosePayModal} person={selectedPerson} />
     </div>
   )
 }

@@ -40,7 +40,7 @@ export default function ProductCard({ id, image, name, price, stock, urlImage, o
         className='bg-white cursor-pointer border border-slate-200 rounded-md p-4 shadow-sm hover:shadow-md transition relative'
       >
         {/* Imagen */}
-        <div className='w-full h-36 bg-gray-100 rounded-lg flex items-center justify-center overflow-hidden'>{src ? <img src={src} alt={name} className='object-cover w-full h-full' /> : <div className='text-sm text-slate-500'>Sin imagen</div>}</div>
+        <div className='w-full h-36 bg-gray-100 rounded-md flex items-center justify-center overflow-hidden'>{src ? <img src={src} alt={name} className='object-cover w-full h-full' /> : <div className='text-sm text-slate-500'>Sin imagen</div>}</div>
 
         {/* Info */}
 
@@ -63,7 +63,7 @@ export default function ProductCard({ id, image, name, price, stock, urlImage, o
       <div className='flex justify-center items-center mt-4'>
         <div className='flex items-center w-full'>
           <button
-            className='w-full h-8 cursor-pointer bg-slate-900 text-white rounded-lg text-sm hover:bg-slate-700 transition'
+            className='w-full h-8 cursor-pointer bg-slate-900 text-white rounded-md text-sm hover:bg-slate-700 transition'
             onClick={e => {
               e.stopPropagation()
               // abrir el panel lateral y establecer el id seleccionado

@@ -28,5 +28,6 @@ export type Movement = {
 export type Person = {
   id: string
   name: string
+  typeMony: 'COP' | 'USD'
   movements: Movement[]
 }

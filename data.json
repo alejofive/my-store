@@ -81,6 +81,7 @@
     {
       "id": "1",
       "name": "Juan Pérez",
+      "typeMony": "COP",
       "movements": [
         {
           "id": "m1",
@@ -105,6 +106,7 @@
     {
       "id": "24bc7844-f412-430a-b176-22272e0d539d",
       "name": "Alejandro",
+      "typeMony": "COP",
       "movements": [
         {
           "id": "975d0b32-d96c-4b93-97ae-618349bfea3d",
@@ -123,12 +125,37 @@
           "date": "2026-01-08T05:34:34.476Z",
           "concept": "Abono",
           "amount": -10
+        },
+        {
+          "id": "1767973039537",
+          "date": "9/1/2026",
+          "concept": "Abono",
+          "amount": -10000
+        },
+        {
+          "id": "1767973059823",
+          "date": "9/1/2026",
+          "concept": "Abono",
+          "amount": -5000
+        },
+        {
+          "id": "1767998901510",
+          "date": "9/1/2026",
+          "concept": "Abono",
+          "amount": -980
+        },
+        {
+          "id": "1768003426301",
+          "date": "9/1/2026",
+          "concept": "Abono",
+          "amount": -2000
         }
       ]
     },
     {
       "id": "e003778a-d6b5-4035-8170-bd7b76ee8424",
       "name": "Cenanid Rujano ",
+      "typeMony": "COP",
       "movements": [
         {
           "id": "0f42c90b-c81c-4466-8f78-ad28e629791b",
@@ -147,12 +174,50 @@
     {
       "id": "8bee6f3c-f14d-4b41-9563-ef6f3589f05d",
       "name": "Luis",
+      "typeMony": "COP",
       "movements": [
         {
           "id": "6f4f5b52-2348-41c1-9fb6-8f5e0c8c0e73",
           "date": "2026-01-07T20:20:19.237Z",
           "concept": "Pepitos",
           "amount": 2000
+        },
+        {
+          "id": "1767973081226",
+          "date": "9/1/2026",
+          "concept": "Abono",
+          "amount": -1000
+        },
+        {
+          "id": "1767973099071",
+          "date": "9/1/2026",
+          "concept": "Abono",
+          "amount": -500
+        },
+        {
+          "id": "1767973299678",
+          "date": "9/1/2026",
+          "concept": "Abono",
+          "amount": -500
+        }
+      ]
+    },
+    {
+      "id": "d53177bd-891b-408c-bffe-7dfd8050db55",
+      "name": "Sidney",
+      "typeMony": "COP",
+      "movements": [
+        {
+          "id": "5fcad101-7d0a-437c-8df2-9499720be2b1",
+          "date": "2026-01-09T20:15:07.164Z",
+          "concept": "Mercado",
+          "amount": 10000
+        },
+        {
+          "id": "1767989739831",
+          "date": "9/1/2026",
+          "concept": "Abono",
+          "amount": -3000
         }
       ]
     }
