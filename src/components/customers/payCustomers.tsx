@@ -47,18 +47,79 @@ export function PayCustomersModal({ onAdd, onClose, open, person }: { onAdd: (da
     return true
   }
 
-  const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value === '' ? 0 : Number(e.target.value)
-    setAmount(value)
+  const [displayValue, setDisplayValue] = useState('')
 
-    if (!Number.isNaN(value)) {
-      validateAmount(value)
+  useEffect(() => {
+    // Reset display value when amount is reset externally (e.g. after pay)
+    if (amount === 0 && displayValue !== '') {
+      setDisplayValue('')
     }
+  }, [amount])
+
+  const formatCurrency = (value: string) => {
+    // Eliminar todo lo que no sea número o coma
+    let cleanValue = value.replace(/[^0-9,]/g, '')
+
+    // Asegurar solo una coma
+    const parts = cleanValue.split(',')
+    if (parts.length > 2) {
+      cleanValue = parts[0] + ',' + parts.slice(1).join('')
+    }
+
+    if (cleanValue === '') return ''
+
+    // Separar parte entera y decimal
+    const [integerPart, decimalPart] = cleanValue.split(',')
+
+    // Formatear parte entera con puntos de mil
+    const formattedInteger = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, '.')
+
+    // Retornar resultado
+    return decimalPart !== undefined ? `${formattedInteger},${decimalPart}` : formattedInteger
+  }
+
+  const parseCurrency = (value: string): number => {
+    if (!value) return 0
+    // Reemplazar puntos por nada y coma por punto para convertir a número JS
+    const cleanValue = value.replace(/\./g, '').replace(',', '.')
+    return parseFloat(cleanValue)
+  }
+
+  const handleDisplayChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const inputValue = e.target.value
+
+    // Validar caracteres permitidos (números y coma)
+    if (!/^[\d.,]*$/.test(inputValue)) return
+
+    // Prevenir más de una coma
+    if ((inputValue.match(/,/g) || []).length > 1) return
+
+    // Permitir borrar todo
+    if (inputValue === '') {
+      setDisplayValue('')
+      setAmount(0)
+      setError('')
+      return
+    }
+
+    // Manejar el input crudo para permitir escribir la coma libremente
+    // Solo formateamos visualmente si no termina en coma para no interrumpir la escritura
+    const rawValue = inputValue.replace(/\./g, '') // Eliminar puntos existentes para reformatear
+    const formatted = formatCurrency(rawValue)
+
+    setDisplayValue(formatted)
+
+    const numericValue = parseCurrency(formatted)
+    setAmount(numericValue)
+    validateAmount(numericValue)
   }
 
   const formatNumber = (value: number) => {
     if (value === null || value === undefined || Number.isNaN(value)) return ''
-    return new Intl.NumberFormat(currency === 'COP' ? 'es-CO' : 'en-US').format(value)
+    return new Intl.NumberFormat(currency === 'COP' ? 'es-CO' : 'en-US', {
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 2
+    }).format(value)
   }
 
   // Si no hay persona, no mostrar el modal
@@ -130,7 +191,7 @@ export function PayCustomersModal({ onAdd, onClose, open, person }: { onAdd: (da
             <label className='block text-sm font-medium text-gray-700 mb-1'>Monto a abonar</label>
             <div className='relative'>
               <span className='absolute left-3 top-2 text-gray-500'>$</span>
-              <input type='number' placeholder='0.00' value={amount === 0 ? '' : amount} onChange={handleAmountChange} className='w-full border p-2 pl-8 rounded-md' min='0' max={currentBalance} step='0.01' disabled={isSubmitting} />
+              <input type='text' placeholder='0' value={displayValue} onChange={handleDisplayChange} className='w-full border p-2 pl-8 rounded-md' disabled={isSubmitting} />
             </div>
             {error && <p className='text-red-600 text-sm mt-1'>{error}</p>}
             <p className='text-sm text-gray-500 mt-1'>Máximo permitido: ${formatNumber(currentBalance)}</p>
@@ -151,7 +212,7 @@ export function PayCustomersModal({ onAdd, onClose, open, person }: { onAdd: (da
           <button className='cursor-pointer bg-slate-500 text-white font-semibold px-4 py-2 rounded-md hover:bg-slate-700' onClick={onClose} disabled={isSubmitting}>
             Cancelar
           </button>
-          <button className='w-full bg-slate-900 text-white py-2 rounded hover:bg-slate-700' onClick={handlePay} disabled={isSubmitting || !!error || amount <= 0}>
+          <button className='w-full bg-slate-900 text-white py-2 rounded hover:bg-slate-700' onClick={handlePay} disabled={isSubmitting || amount <= 0 || amount > currentBalance}>
             {isSubmitting ? 'Procesando...' : 'Pagar deuda'}
           </button>
         </DialogFooter>

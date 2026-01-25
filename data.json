@@ -1,67 +1,66 @@
 {
   "products": [
     {
-      "id": "4564",
       "name": "Doritos",
       "price": 2500,
-      "stock": 24,
+      "stock": 82,
       "image": "",
       "urlImage": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ3TcVktqKVVlZrKtABQfInMx1NbNUF3T6rVQ&s",
       "details": {
-        "packages": "2",
+        "packages": "7",
         "unitPackages": "12",
-        "packageCost": "16.000",
+        "packageCost": "16000",
         "basePrice": 1333.3333333333333,
         "profitPerUnit": 1166.6666666666667,
-        "sold": 0,
-        "totalProfit": 0,
-        "totalCost": 32000,
+        "sold": 36,
+        "totalProfit": 42000.00000000001,
+        "totalCost": 112000,
         "currency": "COP"
-      }
+      },
+      "id": "4564"
     },
     {
-      "id": "dcd9",
       "name": "pepito",
       "price": 2000,
-      "stock": 300,
+      "stock": 277,
       "image": "",
-      "urlImage": "https://curda24.com/wp-content/uploads/2017/04/Pepito_150g_452781-01.webp",
+      "urlImage": "https://www.sigo.com.ve/images/thumbs/0003927_snack-pepito-frito-lay-180-gr_450.jpeg",
       "details": {
         "packages": "20",
         "unitPackages": "15",
-        "packageCost": "12.000",
+        "packageCost": "12000",
         "basePrice": 800,
         "profitPerUnit": 1200,
-        "sold": 0,
-        "totalProfit": 0,
+        "sold": 23,
+        "totalProfit": 27600,
         "totalCost": 240000,
         "currency": "COP"
-      }
+      },
+      "id": "dcd9"
     },
     {
       "name": "cheese tris 2",
       "price": 3000,
-      "stock": 80,
+      "stock": 15,
       "image": "",
       "urlImage": "https://lh3.googleusercontent.com/uaram3idMY8nyWwahT2Fk3KW2mfds6p4sreOKyEH3ly_qv3fQ2QLV5sz88m3CxfcCoPe3vQ6iselB2WQq9Q_Lwe-Zvn9_xXKDkjB5hyH4x33_xrapA",
       "details": {
-        "packages": "10",
+        "packages": "13",
         "unitPackages": "8",
         "packageCost": "20000",
         "basePrice": 2500,
         "profitPerUnit": 500,
-        "sold": 0,
-        "totalProfit": 0,
-        "totalCost": 200000,
+        "sold": 11,
+        "totalProfit": 5500,
+        "totalCost": 260000,
         "currency": "COP"
       },
       "id": "cc3d"
     },
     {
-      "id": "9e3f",
       "name": "Cheetos",
       "price": 4000,
-      "stock": 240,
+      "stock": 236,
       "image": "",
       "urlImage": "https://americanuncle.es/cdn/shop/products/Cheetos-Crunchy-Flamin-Hot-56g.jpg?v=1640104836&width=1080",
       "details": {
@@ -70,156 +69,86 @@
         "packageCost": "30.000",
         "basePrice": 2500,
         "profitPerUnit": 1500,
-        "sold": 0,
-        "totalProfit": 0,
+        "sold": 4,
+        "totalProfit": 6000,
         "totalCost": 600000,
         "currency": "COP"
-      }
+      },
+      "id": "9e3f"
     }
   ],
   "customers": [
     {
-      "id": "1",
-      "name": "Juan Pérez",
-      "typeMony": "COP",
-      "movements": [
-        {
-          "id": "m1",
-          "date": "01/03/26",
-          "concept": "Compra producto X",
-          "amount": 20
-        },
-        {
-          "id": "m2",
-          "date": "05/03/26",
-          "concept": "Abono",
-          "amount": -10
-        },
-        {
-          "id": "9f09b476-fc24-4ab7-a58f-792e01fa3a91",
-          "date": "2026-01-08T05:33:36.019Z",
-          "concept": "Abono",
-          "amount": -10
-        }
-      ]
-    },
-    {
-      "id": "24bc7844-f412-430a-b176-22272e0d539d",
+      "id": "b4ba59d0-5493-4225-852e-c9c9a9f12381",
       "name": "Alejandro",
       "typeMony": "COP",
       "movements": [
         {
-          "id": "975d0b32-d96c-4b93-97ae-618349bfea3d",
-          "date": "2026-01-07T20:00:18.091Z",
-          "concept": "mercado",
-          "amount": 20000
-        },
-        {
-          "id": "c78717a9-aeef-4efc-b28a-1c1eca7532b4",
-          "date": "2026-01-08T05:33:58.084Z",
-          "concept": "Abono",
-          "amount": -10
-        },
-        {
-          "id": "784f29f0-69cc-4771-9690-89f490fd7bf6",
-          "date": "2026-01-08T05:34:34.476Z",
-          "concept": "Abono",
-          "amount": -10
-        },
-        {
-          "id": "1767973039537",
-          "date": "9/1/2026",
-          "concept": "Abono",
-          "amount": -10000
-        },
-        {
-          "id": "1767973059823",
-          "date": "9/1/2026",
-          "concept": "Abono",
-          "amount": -5000
-        },
-        {
-          "id": "1767998901510",
-          "date": "9/1/2026",
-          "concept": "Abono",
-          "amount": -980
-        },
-        {
-          "id": "1768003426301",
-          "date": "9/1/2026",
-          "concept": "Abono",
-          "amount": -2000
+          "id": "00937678-27be-48c7-a73d-8630070c4531",
+          "date": "2026-01-25T03:05:43.708Z",
+          "concept": "pepitos",
+          "amount": 8500,
+          "products": [
+            {
+              "id": "4564",
+              "name": "Doritos",
+              "price": 2500,
+              "quantity": 1
+            },
+            {
+              "id": "dcd9",
+              "name": "pepito",
+              "price": 2000,
+              "quantity": 1
+            },
+            {
+              "id": "9e3f",
+              "name": "Cheetos",
+              "price": 4000,
+              "quantity": 1
+            }
+          ]
         }
       ]
     },
     {
-      "id": "e003778a-d6b5-4035-8170-bd7b76ee8424",
-      "name": "Cenanid Rujano ",
+      "id": "c8404f86-c6fb-46b1-ac19-5c87286891f9",
+      "name": "Karen ",
       "typeMony": "COP",
       "movements": [
         {
-          "id": "0f42c90b-c81c-4466-8f78-ad28e629791b",
-          "date": "2026-01-07T20:10:27.495Z",
-          "concept": "Mercado",
-          "amount": 1000
-        },
-        {
-          "id": "351d8f9a-e371-437a-b395-8c71f2b5282c",
-          "date": "2026-01-08T05:35:10.878Z",
-          "concept": "Abono",
-          "amount": -10
-        }
-      ]
-    },
-    {
-      "id": "8bee6f3c-f14d-4b41-9563-ef6f3589f05d",
-      "name": "Luis",
-      "typeMony": "COP",
-      "movements": [
-        {
-          "id": "6f4f5b52-2348-41c1-9fb6-8f5e0c8c0e73",
-          "date": "2026-01-07T20:20:19.237Z",
+          "id": "a727556a-ffaa-4d83-95c6-019a214bd5e8",
+          "date": "2026-01-21T19:58:44.623Z",
           "concept": "Pepitos",
-          "amount": 2000
+          "amount": 2500,
+          "products": [
+            {
+              "id": "4564",
+              "name": "Doritos",
+              "price": 2500,
+              "quantity": 1
+            }
+          ]
         },
         {
-          "id": "1767973081226",
-          "date": "9/1/2026",
-          "concept": "Abono",
-          "amount": -1000
-        },
-        {
-          "id": "1767973099071",
-          "date": "9/1/2026",
-          "concept": "Abono",
-          "amount": -500
-        },
-        {
-          "id": "1767973299678",
-          "date": "9/1/2026",
-          "concept": "Abono",
-          "amount": -500
+          "id": "60f4c225-3555-477f-ba73-c0462f1b24c5",
+          "date": "2026-01-21T19:59:12.633Z",
+          "concept": "Pago total",
+          "amount": -2500
         }
       ]
+    }
+  ],
+  "currentMonth": [
+    {
+      "mes": "Enero",
+      "ventas": 1200,
+      "id": "9f71"
     },
     {
-      "id": "d53177bd-891b-408c-bffe-7dfd8050db55",
-      "name": "Sidney",
-      "typeMony": "COP",
-      "movements": [
-        {
-          "id": "5fcad101-7d0a-437c-8df2-9499720be2b1",
-          "date": "2026-01-09T20:15:07.164Z",
-          "concept": "Mercado",
-          "amount": 10000
-        },
-        {
-          "id": "1767989739831",
-          "date": "9/1/2026",
-          "concept": "Abono",
-          "amount": -3000
-        }
-      ]
+      "mes": "Febrero",
+      "ventas": 1500,
+      "id": "fbac"
     }
   ]
 }

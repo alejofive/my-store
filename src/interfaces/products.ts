@@ -23,6 +23,12 @@ export type Movement = {
   date: string
   concept: string
   amount: number // + debe / - paga
+  products?: {
+    id: string
+    name: string
+    price: number
+    quantity: number
+  }[]
 }
 
 export type Person = {
@@ -30,4 +36,11 @@ export type Person = {
   name: string
   typeMony: 'COP' | 'USD'
   movements: Movement[]
+  products?: {
+    id: string
+    name: string
+    stock: number
+    price: number
+    quantity: number
+  }[]
 }

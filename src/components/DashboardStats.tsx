@@ -25,12 +25,12 @@ export default function DashboardStats({ ventas, mesActual, ganancia, stock }: S
       {/* Ganancia */}
       <div className='bg-white shadow-sm rounded-xl p-5 border border-gray-200'>
         <h3 className='text-sm text-gray-500'>Ganancia</h3>
-        <p className='text-2xl font-bold text-green-600 mt-1'>${ganancia.toFixed(2)}</p>
+        <p className='text-2xl font-bold text-green-600 mt-1'>${new Intl.NumberFormat('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(ganancia)}</p>
       </div>
 
       {/* Stock */}
       <div className='bg-white shadow-sm rounded-xl p-5 border border-gray-200'>
-        <h3 className='text-sm text-gray-500'>Stock Disponible</h3>
+        <h3 className='text-sm text-gray-500'>Stock</h3>
         <p className='text-2xl font-bold text-gray-900 mt-1'>{stock}</p>
       </div>
     </div>

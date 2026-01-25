@@ -30,6 +30,8 @@ export default function EditProductModal({ open, onClose, product }: Props) {
   const [currency, setCurrency] = useState<'COP' | 'USD'>('COP')
   const fileInputRef = useRef<HTMLInputElement | null>(null)
 
+  const [addedPackages, setAddedPackages] = useState('')
+
   console.log(product)
 
   const queryClient = useQueryClient()
@@ -42,6 +44,7 @@ export default function EditProductModal({ open, onClose, product }: Props) {
       setPreview(product.image ?? null)
       setImage(null)
       setErrors({})
+      setAddedPackages('') // Reset added packages on open
 
       if (product.details) {
         // Convertir strings del backend a números reales
@@ -71,6 +74,7 @@ export default function EditProductModal({ open, onClose, product }: Props) {
     return Number(value.replace(/\./g, ''))
   }
 
+  // Calculate unit price and total cost, but DO NOT overwrite totalStock automatically
   useEffect(() => {
     const p = normalizeNumber(packages)
     const u = normalizeNumber(unitPackages)
@@ -80,10 +84,10 @@ export default function EditProductModal({ open, onClose, product }: Props) {
       const priceUnit = c / u
       setUnitPrice(priceUnit)
 
-      const stockUnits = p * u
-      setTotalStock(stockUnits)
-
-      setTotalCost(p * c)
+      // Removed setTotalStock(p * u) to prevent resetting stock on load
+      // We only update cost calculations based on current config
+      const currentTotalCost = p * c
+      setTotalCost(currentTotalCost)
     }
   }, [packages, unitPackages, packageCost])
 
@@ -117,6 +121,7 @@ export default function EditProductModal({ open, onClose, product }: Props) {
     setPackages('')
     setUnitPackages('')
     setPackageCost('')
+    setAddedPackages('')
     setProfit('')
     setUnitPrice(0)
     setTotalStock(0)
@@ -188,7 +193,8 @@ export default function EditProductModal({ open, onClose, product }: Props) {
     if (!name.trim()) newErrors.name = 'El nombre es requerido'
     // price field is replaced by `profit` (final price). Validate if provided.
     if (profit !== '' && isNaN(normalizeNumber(profit))) newErrors.price = 'Debe ser un número válido'
-    if (stock === '' || isNaN(Number(stock))) newErrors.stock = 'Debe ser un número válido'
+
+    // stock validation is now less critical as we calculate it, but keeping basic check
 
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors)
@@ -202,24 +208,40 @@ export default function EditProductModal({ open, onClose, product }: Props) {
     const finalPrice = inputValue > 0 ? inputValue : unitPrice
     const profitValue = finalPrice - unitPrice
 
-    // For simplicity send JSON; image file upload not supported for edit here
+    // Calculate NEW stock and package counts
+    const addedPkg = normalizeNumber(addedPackages)
+    const units = normalizeNumber(unitPackages)
+    const currentPkg = normalizeNumber(packages)
+
+    // Logic: 
+    // New Stock = Current Available Stock + (Added Packages * Units per Package)
+    // New Total Packages = Current Total Packages + Added Packages
+
+    const addedStock = addedPkg * units
+    const newTotalStock = totalStock + addedStock
+    const newTotalPackages = currentPkg + addedPkg
+
+    // Recalculate Total Cost based on new total packages
+    const costPerPkg = normalizeNumber(packageCost)
+    const newTotalCost = newTotalPackages * costPerPkg
+
     mutation.mutate({
       id: product.id,
       name,
       price: finalPrice,
-      stock: totalStock,
+      stock: newTotalStock,
       urlImage,
       image: image ? URL.createObjectURL(image) : '',
       details: {
-        packages, // <-- string
-        unitPackages, // <-- string
-        packageCost, // <-- string
+        packages: String(newTotalPackages),
+        unitPackages,
+        packageCost,
 
         basePrice: unitPrice,
         profitPerUnit: profitValue,
         sold: product.details?.sold ?? 0,
         totalProfit: product.details?.totalProfit ?? 0,
-        totalCost,
+        totalCost: newTotalCost,
         currency,
       },
     })
@@ -255,53 +277,80 @@ export default function EditProductModal({ open, onClose, product }: Props) {
           <DialogTitle className='text-2xl font-semibold'>Editar Producto</DialogTitle>
         </DialogHeader>
 
-        <div className='flex items-center justify-center w-full'>
-          <label className='flex flex-col items-center justify-center w-full h-64 bg-slate-200 border border-dashed border-default-strong rounded-md cursor-pointer hover:bg-neutral-tertiary-medium overflow-hidden'>
-            {preview ? (
-              <img src={preview} alt='Preview' className='object-cover w-full h-full' />
-            ) : (
-              <div className='flex flex-col items-center justify-center text-body pt-5 pb-6'>
-                <CloudUploadIcon className='mb-3 text-slate-900' style={{ fontSize: 48 }} />
-                <p className='mb-2 text-sm text-slate-700'>
-                  <span className='font-semibold text-slate-900'>Click to upload</span> o arrastra una imagen
-                </p>
-                <p className='text-xs'>SVG, PNG, JPG (MAX. 800x400px)</p>
-              </div>
-            )}
 
-            <input ref={fileInputRef} id='edit-dropzone-file' type='file' accept='image/*' className='hidden' onChange={handleUploadImage} />
-          </label>
-        </div>
 
         <div className='space-y-3'>
           <div>
+            <label className='text-xs font-semibold text-slate-500'>Nombre del Producto</label>
             <input type='text' placeholder='Nombre del producto' className={`w-full border ${errors.name ? 'border-red-500' : 'border-slate-200'} shadow rounded px-3 py-2`} value={name} onChange={e => setName(e.target.value)} />
             {errors.name && <p className='text-sm text-red-500 mt-1'>{errors.name}</p>}
           </div>
 
-          <input type='text' placeholder='URL de imagen' className='w-full border border-slate-200 shadow rounded px-3 py-2' value={urlImage} onChange={e => setUrlImage(e.target.value)} />
-
           <div>
-            <select value={currency} onChange={e => setCurrency(e.target.value as 'COP' | 'USD')} className='w-full border shadow rounded px-3 py-2'>
-              <option value='COP'>🇨🇴 COP - Pesos</option>
-              <option value='USD'>🇺🇸 USD - Dólares</option>
-            </select>
+            <label className='text-xs font-semibold text-slate-500'>URL de la Imagen</label>
+            <input type='text' placeholder='URL de la imagen' className={`w-full border border-slate-200 shadow rounded px-3 py-2`} value={urlImage} onChange={e => setUrlImage(e.target.value)} />
+          </div>
+
+          <div className='grid grid-cols-2 gap-2'>
+            <div>
+              <label className='text-xs font-semibold text-slate-500'>Paquetes Totales</label>
+              <input type='text' placeholder='Paquetes totales' className={`w-full border border-slate-200 shadow rounded px-3 py-2`} value={formatThousands(packages)} onChange={e => setPackages(formatThousands(e.target.value))} />
+            </div>
+            <div className='rounded-md'>
+              <label className='text-xs font-bold text-green-700 uppercase'>+ Agregar Paquete</label>
+              <input
+                type='text'
+                placeholder='0'
+                value={formatThousands(addedPackages)}
+                onChange={e => setAddedPackages(formatThousands(e.target.value))}
+                className='w-full border border-green-300 shadow-sm rounded px-3 py-2 focus:ring-green-500 focus:border-green-500'
+              />
+            </div>
+          </div>
+
+          <div className='grid grid-cols-2 gap-2'>
+
+            <div>
+              <label className='text-xs font-semibold text-slate-500'>Unidades por Paquete</label>
+              <input type='text' placeholder='Unidades por paquete' className={`w-full border border-slate-200 shadow rounded px-3 py-2`} value={formatThousands(unitPackages)} onChange={e => setUnitPackages(formatThousands(e.target.value))} />
+            </div>
+            <div>
+              <label className='text-xs font-semibold text-slate-500'>Costo por Paquete</label>
+              <input type='text' placeholder='Costo del paquete' className={`w-full border border-slate-200 shadow rounded px-3 py-2`} value={formatThousands(packageCost)} onChange={e => setPackageCost(formatThousands(e.target.value))} />
+            </div>
+          </div>
+
+          <div className='grid grid-cols-9 gap-2'>
+            <div className='rounded-md p-4 border border-slate-300 col-span-3'>
+              <p className='text-xs font-semibold text-slate-800'>
+                Precio por unidad (costo real)
+              </p>
+              <strong className='font-bold text-2xl text-slate-900'>{formatCurrency(unitPrice)}</strong>
+            </div>
+
+            <div className='rounded-md p-4 border border-slate-300 col-span-3'>
+              <p className='text-xs font-semibold text-slate-800'>
+                Stock Actual:
+              </p>
+              <div className='flex items-center gap-2'>
+                <strong className='font-bold text-2xl text-slate-900'>{formatNumber(totalStock)}</strong>
+                {normalizeNumber(addedPackages) > 0 && (
+                  <div className='text-green-600 font-semibold text-2xl'>
+                    (+{formatNumber(normalizeNumber(addedPackages) * normalizeNumber(unitPackages))}): <strong>{formatNumber(totalStock + (normalizeNumber(addedPackages) * normalizeNumber(unitPackages)))}</strong>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            <div className='rounded-md p-4 border border-slate-300 col-span-3'>
+              <p className='text-xs font-semibold text-slate-800'>Costo total de compra:</p>
+              <strong className='font-bold text-2xl text-slate-900'>{formatCurrency(totalCost)}</strong>
+            </div>
           </div>
 
           <div>
-            <input type='number' placeholder='Cantidad de paquetes comprados' value={formatThousands(packages)} onChange={e => setPackages(formatThousands(e.target.value))} className='w-full border shadow rounded px-3 py-2' />
-          </div>
-
-          <div>
-            <input type='number' placeholder='Unidades por paquete' value={formatThousands(unitPackages)} onChange={e => setUnitPackages(formatThousands(e.target.value))} className='w-full border shadow rounded px-3 py-2' />
-          </div>
-
-          <div>
-            <input type='number' placeholder='Costo del paquete' value={formatThousands(packageCost)} onChange={e => setPackageCost(formatThousands(e.target.value))} className='w-full border shadow rounded px-3 py-2' />
-          </div>
-
-          <div>
-            <input type='number' placeholder='Precio final del producto' value={formatThousands(profit)} onChange={e => setProfit(formatThousands(e.target.value))} className='w-full border shadow rounded px-3 py-2' />
+            <label className='text-xs font-semibold text-slate-500'>Precio Final (Venta)</label>
+            <input type='text' placeholder='Precio final del producto' className={`w-full border border-slate-200 shadow rounded px-3 py-2`} value={formatThousands(profit)} onChange={e => setProfit(formatThousands(e.target.value))} />
 
             {profit !== '' &&
               (() => {
@@ -310,24 +359,35 @@ export default function EditProductModal({ open, onClose, product }: Props) {
                 const effectiveProfit = finalPrice - unitPrice
                 return (
                   <p className='text-sm text-slate-700 mt-2'>
-                    Ganancia por unidad: <strong>{formatCurrency(effectiveProfit)}</strong>
+                    Ganancia por unidad: <strong className='font-bold text-sm text-green-600 '>{formatCurrency(effectiveProfit)}</strong>
                     <span className='ml-2 text-xs text-slate-500'> (Precio final: {formatCurrency(finalPrice)})</span>
                   </p>
                 )
               })()}
           </div>
 
-          <div className='bg-slate-100 p-3 rounded'>
-            <p>
-              Precio por unidad (costo real): <strong>{formatCurrency(unitPrice)}</strong>
-            </p>
-            <p>
-              Stock total (unidades): <strong>{formatNumber(totalStock)}</strong>
-            </p>
-            <p>
-              Costo total de compra: <strong>{formatCurrency(totalCost)}</strong>
-            </p>
-          </div>
+          {/* <div>
+            <h3 className='text-xl font-semibold text-slate-500 mb-4'>Imagen del Producto</h3>
+            <hr className='text-slate-300 mb-4' />
+            <div className='flex items-center justify-center w-full'>
+              <label className='flex flex-col items-center justify-center w-full h-56 bg-slate-200 border border-dashed border-default-strong rounded-md cursor-pointer hover:bg-neutral-tertiary-medium overflow-hidden'>
+                {preview ? (
+                  <img src={preview} alt='Preview' className='object-cover w-full h-full' />
+                ) : (
+                  <div className='flex flex-col items-center justify-center text-body pt-5 pb-6'>
+                    <CloudUploadIcon className='mb-3 text-slate-900' style={{ fontSize: 48 }} />
+                    <p className='mb-2 text-sm text-slate-700'>
+                      <span className='font-semibold text-slate-900'>Click to upload</span> o arrastra una imagen
+                    </p>
+                    <p className='text-xs'>SVG, PNG, JPG (MAX. 800x400px)</p>
+                  </div>
+                )}
+
+                <input ref={fileInputRef} id='edit-dropzone-file' type='file' accept='image/*' className='hidden' onChange={handleUploadImage} />
+              </label>
+            </div>
+          </div> */}
+
         </div>
 
         <DialogFooter>
