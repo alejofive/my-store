@@ -9,6 +9,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useQuery } from '@tanstack/react-query'
 import clsx from 'clsx'
 import { useEffect, useState } from 'react'
+import { SelectPayModal } from './SelectPay'
 
 type Product = {
   id: string | number
@@ -24,6 +25,13 @@ type Product = {
 export default function SidebarTotal() {
   const { activeTotal, setActiveTotal, selectedProductId } = useTheme()
   const queryClient = useQueryClient()
+  const [showModal, setShowModal] = useState(false)
+  const [showFiadoOptionsModal, setShowFiadoOptionsModal] = useState(false)
+  const [showCreateCustomerModal, setShowCreateCustomerModal] = useState(false)
+  const [showCustomerSearchModal, setShowCustomerSearchModal] = useState(false)
+  const [showEditCustomerModal, setShowEditCustomerModal] = useState(false)
+  const [showResetDebtModal, setShowResetDebtModal] = useState(false)
+  const [selectedCustomer, setSelectedCustomer] = useState<any>(null)
 
   const {
     data: product,
@@ -148,6 +156,90 @@ export default function SidebarTotal() {
     // Limpiar UI y cerrar
     setProductList([])
     setActiveTotal(false)
+    setShowModal(false)
+  }
+
+  const handleFiado = () => {
+    if (productList.length === 0) return
+    setShowModal(false)
+    setShowFiadoOptionsModal(true)
+  }
+
+  const handleNewCustomer = () => {
+    setShowFiadoOptionsModal(false)
+    // Convert productList to SelectedProduct format
+    const selectedProducts = productList.map(p => ({
+      id: p.id.toString(),
+      name: p.name || '',
+      price: p.price || 0,
+      quantity: p.quantity || 1,
+      PrecioTotal: (p.price || 0) * (p.quantity || 1),
+      image: p.image || p.urlImage || '',
+    }))
+
+    // Store pre-selected products to pass to EditCustomersModal
+    ;(window as any).preSelectedProducts = selectedProducts
+    setShowCreateCustomerModal(true)
+  }
+
+  const handleExistingCustomer = () => {
+    setShowFiadoOptionsModal(false)
+    // Store products for the next modal
+    const selectedProducts = productList.map(p => ({
+      id: p.id.toString(),
+      name: p.name || '',
+      price: p.price || 0,
+      quantity: p.quantity || 1,
+      PrecioTotal: (p.price || 0) * (p.quantity || 1),
+      image: p.image || p.urlImage || '',
+    }))
+    ;(window as any).preSelectedProducts = selectedProducts
+    setShowCustomerSearchModal(true)
+  }
+
+  const handleSelectCustomer = (customer: any) => {
+    console.log('handleSelectCustomer called with:', customer.name, 'movements:', customer.movements?.length)
+    setSelectedCustomer(customer)
+    setShowCustomerSearchModal(false)
+    // Pequeño delay para asegurar que el estado se actualice
+    setTimeout(() => {
+      setShowEditCustomerModal(true)
+    }, 100)
+  }
+
+  const handleResetCustomer = () => {
+    setShowFiadoOptionsModal(false)
+    // Store products for the next modal
+    const selectedProducts = productList.map(p => ({
+      id: p.id.toString(),
+      name: p.name || '',
+      price: p.price || 0,
+      quantity: p.quantity || 1,
+      PrecioTotal: (p.price || 0) * (p.quantity || 1),
+      image: p.image || p.urlImage || '',
+    }))
+    ;(window as any).preSelectedProducts = selectedProducts
+    setShowResetDebtModal(true)
+  }
+
+  const handleSelectResetCustomer = (customer: any) => {
+    // Crear un cliente con movements vacío para simular reset
+    const resetCustomer = {
+      ...customer,
+      movements: [],
+    }
+    console.log('handleSelectResetCustomer called with:', customer.name, 'creating resetCustomer')
+    setSelectedCustomer(resetCustomer)
+    setShowResetDebtModal(false)
+    // Pequeño delay para asegurar que el estado se actualice
+    setTimeout(() => {
+      setShowEditCustomerModal(true)
+    }, 100)
+  }
+
+  const handleOpenModal = () => {
+    if (productList.length === 0) return
+    setShowModal(true)
   }
 
   if (!activeTotal) return null
@@ -209,9 +301,12 @@ export default function SidebarTotal() {
         {!isLoading && !error && !product && <div className='text-sm text-slate-500'>Selecciona un producto para ver el total.</div>}
       </div>
 
-      <button onClick={handleProcessTotal} disabled={mutation.isPending || productList.length === 0} className='mt-20 cursor-pointer w-full bg-slate-900 text-white py-2 px-4 rounded-md hover:bg-slate-700 transition-colors duration-200 text-xl disabled:opacity-60 disabled:cursor-not-allowed'>
+      <button onClick={handleOpenModal} disabled={mutation.isPending || productList.length === 0} className='mt-20 cursor-pointer w-full bg-slate-900 text-white py-2 px-4 rounded-md hover:bg-slate-700 transition-colors duration-200 text-xl disabled:opacity-60 disabled:cursor-not-allowed'>
         {mutation.isPending ? 'Procesando...' : `Total $${formatPrice(calculateTotal())}`}
       </button>
+
+      {/* Modal de selección de tipo de venta */}
+      <SelectPayModal onClose={() => setShowModal(false)} open={showModal} handleProcessTotal={handleProcessTotal} handleFiado={handleFiado} productList={productList} closeView={closeView} handleNewCustomer={handleNewCustomer} handleExistingCustomer={handleExistingCustomer} handleResetCustomer={handleResetCustomer} handleSelectCustomer={handleSelectCustomer} handleSelectResetCustomer={handleSelectResetCustomer} showModal={showModal} setShowModal={setShowModal} showFiadoOptionsModal={showFiadoOptionsModal} setShowFiadoOptionsModal={setShowFiadoOptionsModal} setShowCustomerSearchModal={setShowCustomerSearchModal} showCreateCustomerModal={showCreateCustomerModal} setShowCreateCustomerModal={setShowCreateCustomerModal} showEditCustomerModal={showEditCustomerModal} setShowEditCustomerModal={setShowEditCustomerModal} showResetDebtModal={showResetDebtModal} setShowResetDebtModal={setShowResetDebtModal} selectedCustomer={selectedCustomer} setSelectedCustomer={setSelectedCustomer} showCustomerSearchModal={showCustomerSearchModal} />
     </aside>
   )
 }

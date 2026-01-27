@@ -21,13 +21,19 @@ type SelectedProduct = {
     image: string
 }
 
-export function EditCustomersModal({ onAdd, onClose, open, person }: { onAdd: (data: any) => void; open: boolean; onClose: () => void; person?: Person | null }) {
+export function EditCustomersModal({ onAdd, onClose, open, person, preSelectedProducts }: { 
+    onAdd: (data: any) => void; 
+    open: boolean; 
+    onClose: () => void; 
+    person?: Person | null;
+    preSelectedProducts?: SelectedProduct[];
+}) {
     const [name, setName] = useState('')
     const [concept, setConcept] = useState('')
     const [amount, setAmount] = useState('')
     const [typeMony, setTypeMony] = useState<'COP' | 'USD'>('COP')
 
-    const [selectedProducts, setSelectedProducts] = useState<SelectedProduct[]>([])
+    const [selectedProducts, setSelectedProducts] = useState<SelectedProduct[]>(preSelectedProducts || [])
 
     const {
         data: products = [],
@@ -42,51 +48,120 @@ export function EditCustomersModal({ onAdd, onClose, open, person }: { onAdd: (d
         },
     })
 
-    // Effect to load person data if editing
+    // Effect to load person data if editing or pre-selected products
     useEffect(() => {
-        if (open && products.length > 0) {
+        console.log('EditCustomers useEffect triggered', { open, person: person?.name, preSelectedProductsLength: preSelectedProducts?.length })
+        
+        if (open) {
             if (person) {
-                setName(person.name)
-                setTypeMony(person.typeMony)
+                // Mode: Editing existing customer (including reset debt)
+                console.log('Loading existing customer data:', person.name, 'movements:', person.movements?.length || 0)
+                setName(person.name || '')
+                setTypeMony(person.typeMony || 'COP')
 
-                // Consolidate products from all movements
+                // First, load existing products from movements
                 const existingProductsMap = new Map<string, SelectedProduct>()
                 let lastConcept = ''
 
-                person.movements.forEach(m => {
-                    if (m.products && m.products.length > 0) {
-                        lastConcept = m.concept // Keep the last relevant concept
-                        m.products.forEach(p => {
-                            const pid = p.id.toString()
+                const movements = person.movements || []
+                for (const movement of movements) {
+                    if (movement.products && movement.products.length > 0) {
+                        lastConcept = movement.concept // Keep the last relevant concept
+                        console.log('Processing movement with products:', movement.products.length)
+                        
+                        for (const product of movement.products) {
+                            const pid = String(product.id)
                             const current = existingProductsMap.get(pid)
-                            const quantity = p.quantity + (current?.quantity || 0)
+                            const quantity = (product.quantity || 1) + (current?.quantity || 0)
 
                             // Find info from catalog to get image and latest price if needed
                             const catalogProduct = products.find(cp => cp.id.toString() === pid)
 
                             existingProductsMap.set(pid, {
                                 id: pid,
-                                name: p.name,
-                                price: p.price, // Keep original price or update? Usually we keep history, but for a "current active debt" editing, maybe keep it. Let's keep p.price from movement for now, or catalogProduct.price if we want to update to current prices. User said "monto viejo se sume", implying value preservation.
+                                name: product.name,
+                                price: product.price,
                                 quantity: quantity,
-                                PrecioTotal: p.price * quantity,
+                                PrecioTotal: product.price * quantity,
                                 image: catalogProduct?.image || catalogProduct?.urlImage || ''
                             })
-                        })
+                        }
                     }
-                })
+                }
 
-                setSelectedProducts(Array.from(existingProductsMap.values()))
-                setConcept(lastConcept)
+                // Then, merge with pre-selected products if any
+                if (preSelectedProducts && preSelectedProducts.length > 0) {
+                    console.log('Merging with pre-selected products:', preSelectedProducts.length)
+                    for (const product of preSelectedProducts) {
+                        const pid = product.id
+                        const existing = existingProductsMap.get(pid)
+                        
+                        if (existing) {
+                            // Product exists, add quantities
+                            const newQuantity = existing.quantity + product.quantity
+                            existingProductsMap.set(pid, {
+                                ...existing,
+                                quantity: newQuantity,
+                                PrecioTotal: existing.price * newQuantity
+                            })
+                        } else {
+                            // New product, add it
+                            existingProductsMap.set(pid, product)
+                        }
+                    }
+                    setConcept('Deuda actualizada')
+                }
+
+                const finalProducts = Array.from(existingProductsMap.values())
+                console.log('Final products to display:', finalProducts.length)
+                setSelectedProducts(finalProducts)
+                setConcept(lastConcept || 'Deuda acumulada')
                 setAmount('') // Amount is calculated from selectedProducts
+                
+            } else if (preSelectedProducts && preSelectedProducts.length > 0) {
+                // Mode: Creating new debt with pre-selected products from SidebarTotal
+                console.log('Creating new debt with pre-selected products')
+                setName('')
+                setConcept('Deuda inicial')
+                setTypeMony('COP')
+                setSelectedProducts(preSelectedProducts)
+                
             } else {
+                // Mode: Creating new customer debt
+                console.log('Creating new empty customer debt')
                 setName('')
                 setConcept('')
                 setAmount('')
                 setSelectedProducts([])
             }
         }
-    }, [open, person, products]) // Added products as dependency to ensure images load
+    }, [open, person, preSelectedProducts]) // Removed products from dependency to avoid re-recreating when products load
+
+    // Effect to update product images when catalog products are loaded
+    useEffect(() => {
+        if (person && products.length > 0 && selectedProducts.length > 0) {
+            console.log('Updating product images with catalog data')
+            const updatedProducts = selectedProducts.map(sp => {
+                const catalogProduct = products.find(cp => cp.id.toString() === sp.id)
+                return {
+                    ...sp,
+                    image: catalogProduct?.image || catalogProduct?.urlImage || sp.image
+                }
+            })
+            setSelectedProducts(updatedProducts)
+        }
+    }, [products, person, selectedProducts.length])
+
+    // Debug effect to track state changes
+    useEffect(() => {
+        console.log('State changed:', {
+            name,
+            personName: person?.name,
+            selectedProductsLength: selectedProducts.length,
+            preSelectedProductsLength: preSelectedProducts?.length,
+            open
+        })
+    }, [name, person, selectedProducts, preSelectedProducts, open])
 
     const totalAmount = selectedProducts.reduce((acc, curr) => acc + curr.price * curr.quantity, 0)
 
@@ -228,7 +303,20 @@ export function EditCustomersModal({ onAdd, onClose, open, person }: { onAdd: (d
         <Dialog open={open} onOpenChange={onClose}>
             <DialogContent className='bg-white'>
                 <DialogHeader>
-                    <DialogTitle className='text-2xl font-semibold'>Crear Deuda</DialogTitle>
+                    <DialogTitle className='text-2xl font-semibold'>
+                        {preSelectedProducts && preSelectedProducts.length > 0 ? 
+                            (person && person.movements.length === 0 ? 'Reiniciar Deuda' : 'Crear Nueva Deuda') : 
+                            (person ? 'Editar Deuda' : 'Crear Deuda')
+                        }
+                    </DialogTitle>
+                    {preSelectedProducts && preSelectedProducts.length > 0 && (
+                        <p className='text-sm text-slate-600'>
+                            {person && person.movements.length === 0 ? 
+                                `Reiniciando deuda para ${person.name} con ${preSelectedProducts.length} producto${preSelectedProducts.length !== 1 ? 's' : ''}` :
+                                `Cliente nuevo con ${preSelectedProducts.length} producto${preSelectedProducts.length !== 1 ? 's' : ''} del carrito`
+                            }
+                        </p>
+                    )}
                 </DialogHeader>
                 <div>
                     <label htmlFor="" className='text-sm font-semibold text-slate-600'>Persona</label>

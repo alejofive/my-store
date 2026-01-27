@@ -3,7 +3,7 @@
     {
       "name": "Doritos",
       "price": 2500,
-      "stock": 82,
+      "stock": 80,
       "image": "",
       "urlImage": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ3TcVktqKVVlZrKtABQfInMx1NbNUF3T6rVQ&s",
       "details": {
@@ -12,8 +12,8 @@
         "packageCost": "16000",
         "basePrice": 1333.3333333333333,
         "profitPerUnit": 1166.6666666666667,
-        "sold": 36,
-        "totalProfit": 42000.00000000001,
+        "sold": 39,
+        "totalProfit": 45500,
         "totalCost": 112000,
         "currency": "COP"
       },
@@ -22,7 +22,7 @@
     {
       "name": "pepito",
       "price": 2000,
-      "stock": 277,
+      "stock": 270,
       "image": "",
       "urlImage": "https://www.sigo.com.ve/images/thumbs/0003927_snack-pepito-frito-lay-180-gr_450.jpeg",
       "details": {
@@ -31,8 +31,8 @@
         "packageCost": "12000",
         "basePrice": 800,
         "profitPerUnit": 1200,
-        "sold": 23,
-        "totalProfit": 27600,
+        "sold": 30,
+        "totalProfit": 36000,
         "totalCost": 240000,
         "currency": "COP"
       },
@@ -41,7 +41,7 @@
     {
       "name": "cheese tris 2",
       "price": 3000,
-      "stock": 15,
+      "stock": 7,
       "image": "",
       "urlImage": "https://lh3.googleusercontent.com/uaram3idMY8nyWwahT2Fk3KW2mfds6p4sreOKyEH3ly_qv3fQ2QLV5sz88m3CxfcCoPe3vQ6iselB2WQq9Q_Lwe-Zvn9_xXKDkjB5hyH4x33_xrapA",
       "details": {
@@ -50,8 +50,8 @@
         "packageCost": "20000",
         "basePrice": 2500,
         "profitPerUnit": 500,
-        "sold": 11,
-        "totalProfit": 5500,
+        "sold": 19,
+        "totalProfit": 9500,
         "totalCost": 260000,
         "currency": "COP"
       },
@@ -60,7 +60,7 @@
     {
       "name": "Cheetos",
       "price": 4000,
-      "stock": 236,
+      "stock": 230,
       "image": "",
       "urlImage": "https://americanuncle.es/cdn/shop/products/Cheetos-Crunchy-Flamin-Hot-56g.jpg?v=1640104836&width=1080",
       "details": {
@@ -69,8 +69,8 @@
         "packageCost": "30.000",
         "basePrice": 2500,
         "profitPerUnit": 1500,
-        "sold": 4,
-        "totalProfit": 6000,
+        "sold": 15,
+        "totalProfit": 22500,
         "totalCost": 600000,
         "currency": "COP"
       },
@@ -84,10 +84,139 @@
       "typeMony": "COP",
       "movements": [
         {
-          "id": "00937678-27be-48c7-a73d-8630070c4531",
-          "date": "2026-01-25T03:05:43.708Z",
-          "concept": "pepitos",
-          "amount": 8500,
+          "id": "1769451083390",
+          "date": "26/1/2026",
+          "concept": "Abono",
+          "amount": -10000
+        },
+        {
+          "id": "201f8fdd-de28-4110-a0d5-4cd007370aa3",
+          "date": "2026-01-26T20:30:06.876Z",
+          "concept": "Deuda inicial",
+          "amount": 22500,
+          "products": [
+            {
+              "id": "9e3f",
+              "name": "Cheetos",
+              "price": 4000,
+              "quantity": 3
+            },
+            {
+              "id": "cc3d",
+              "name": "cheese tris 2",
+              "price": 3000,
+              "quantity": 2
+            },
+            {
+              "id": "dcd9",
+              "name": "pepito",
+              "price": 2000,
+              "quantity": 1
+            },
+            {
+              "id": "4564",
+              "name": "Doritos",
+              "price": 2500,
+              "quantity": 1
+            }
+          ]
+        },
+        {
+          "id": "318b1ea2-1598-4034-bc4e-b6dfce3ea518",
+          "date": "2026-01-26T20:36:28.816Z",
+          "concept": "Pago total",
+          "amount": -12500
+        }
+      ]
+    },
+    {
+      "id": "c8404f86-c6fb-46b1-ac19-5c87286891f9",
+      "name": "Karen",
+      "typeMony": "COP",
+      "movements": [
+        {
+          "id": "6fd04cf8-50ca-4da4-bf77-71361d7a0d64",
+          "date": "2026-01-26T17:32:23.431Z",
+          "concept": "Pago total",
+          "amount": -4000
+        },
+        {
+          "id": "de52eb61-e7a4-4253-b2f4-a0c113ac6246",
+          "date": "2026-01-26T20:29:14.291Z",
+          "concept": "Deuda inicial",
+          "amount": 15500,
+          "products": [
+            {
+              "id": "9e3f",
+              "name": "Cheetos",
+              "price": 4000,
+              "quantity": 2
+            },
+            {
+              "id": "cc3d",
+              "name": "cheese tris 2",
+              "price": 3000,
+              "quantity": 1
+            },
+            {
+              "id": "dcd9",
+              "name": "pepito",
+              "price": 2000,
+              "quantity": 1
+            },
+            {
+              "id": "4564",
+              "name": "Doritos",
+              "price": 2500,
+              "quantity": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "e964b8e1-0f6e-4171-9f62-805deb4c893a",
+      "name": "Sidney",
+      "typeMony": "COP",
+      "movements": [
+        {
+          "id": "8e9c9dcc-9e49-4945-8144-f8e977ad561c",
+          "date": "2026-01-26T17:40:49.581Z",
+          "concept": "Deuda inicial",
+          "amount": 9000,
+          "products": [
+            {
+              "id": "9e3f",
+              "name": "Cheetos",
+              "price": 4000,
+              "quantity": 1
+            },
+            {
+              "id": "cc3d",
+              "name": "cheese tris 2",
+              "price": 3000,
+              "quantity": 1
+            },
+            {
+              "id": "dcd9",
+              "name": "pepito",
+              "price": 2000,
+              "quantity": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "8101a370-07db-48bd-8ce4-4ec1ae454799",
+      "name": "Luis",
+      "typeMony": "COP",
+      "movements": [
+        {
+          "id": "8d917622-398e-494e-83bc-394dbd7a4f0a",
+          "date": "2026-01-26T18:09:27.539Z",
+          "concept": "Deuda inicial",
+          "amount": 11500,
           "products": [
             {
               "id": "4564",
@@ -102,9 +231,54 @@
               "quantity": 1
             },
             {
+              "id": "cc3d",
+              "name": "cheese tris 2",
+              "price": 3000,
+              "quantity": 1
+            },
+            {
               "id": "9e3f",
               "name": "Cheetos",
               "price": 4000,
+              "quantity": 1
+            }
+          ]
+        },
+        {
+          "id": "815e15e6-e544-4de5-b788-c5fdb92a7ada",
+          "date": "2026-01-26T20:44:42.101Z",
+          "concept": "Pago total",
+          "amount": -11500
+        }
+      ]
+    },
+    {
+      "id": "88dfe0dc-04ef-4601-aa2d-de5d2f7b140a",
+      "name": "Cenaid",
+      "typeMony": "COP",
+      "movements": [
+        {
+          "id": "efc17eec-d9a5-4bbc-ac51-7ae965581232",
+          "date": "2026-01-26T18:09:51.003Z",
+          "concept": "Deuda inicial",
+          "amount": 25000,
+          "products": [
+            {
+              "id": "cc3d",
+              "name": "cheese tris 2",
+              "price": 3000,
+              "quantity": 1
+            },
+            {
+              "id": "9e3f",
+              "name": "Cheetos",
+              "price": 4000,
+              "quantity": 5
+            },
+            {
+              "id": "dcd9",
+              "name": "pepito",
+              "price": 2000,
               "quantity": 1
             }
           ]
@@ -112,29 +286,23 @@
       ]
     },
     {
-      "id": "c8404f86-c6fb-46b1-ac19-5c87286891f9",
-      "name": "Karen ",
+      "id": "b5c4325e-4463-489b-bf31-c4fceb7f3b0d",
+      "name": "Jose ",
       "typeMony": "COP",
       "movements": [
         {
-          "id": "a727556a-ffaa-4d83-95c6-019a214bd5e8",
-          "date": "2026-01-21T19:58:44.623Z",
-          "concept": "Pepitos",
-          "amount": 2500,
+          "id": "2e27841e-dd96-4a5e-8214-22ab3a8cc064",
+          "date": "2026-01-26T18:10:11.444Z",
+          "concept": "Deuda inicial",
+          "amount": 6000,
           "products": [
             {
-              "id": "4564",
-              "name": "Doritos",
-              "price": 2500,
-              "quantity": 1
+              "id": "cc3d",
+              "name": "cheese tris 2",
+              "price": 3000,
+              "quantity": 2
             }
           ]
-        },
-        {
-          "id": "60f4c225-3555-477f-ba73-c0462f1b24c5",
-          "date": "2026-01-21T19:59:12.633Z",
-          "concept": "Pago total",
-          "amount": -2500
         }
       ]
     }
