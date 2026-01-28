@@ -23,7 +23,7 @@ type Product = {
 }
 
 export default function SidebarTotal() {
-  const { activeTotal, setActiveTotal, selectedProductId } = useTheme()
+  const { activeTotal, setActiveTotal, selectedProductId, selectedProductIds, setSelectedProductIds } = useTheme()
   const queryClient = useQueryClient()
   const [showModal, setShowModal] = useState(false)
   const [showFiadoOptionsModal, setShowFiadoOptionsModal] = useState(false)
@@ -58,18 +58,26 @@ export default function SidebarTotal() {
 
       return [...prev, { ...product, quantity: 1 }]
     })
-  }, [product])
+
+    // Sincronizar con selectedProductIds
+    setSelectedProductIds((prev: (string | number)[]) => {
+      if (prev.includes(product.id)) return prev
+      return [...prev, product.id]
+    })
+  }, [product, setSelectedProductIds])
 
   const closeView = () => {
     setProductList([])
+    setSelectedProductIds([])
     setActiveTotal(false)
   }
 
   useEffect(() => {
     if (!activeTotal) {
       setProductList([])
+      setSelectedProductIds([])
     }
-  }, [activeTotal])
+  }, [activeTotal, setSelectedProductIds])
 
   const handleIncreaseQuantity = (productId: string | number) => {
     setProductList(prev => prev.map(p => (p.id === productId ? { ...p, quantity: (p.quantity || 1) + 1 } : p)))
@@ -81,6 +89,7 @@ export default function SidebarTotal() {
 
   const handleRemoveProduct = (productId: string | number) => {
     setProductList(prev => prev.filter(p => p.id !== productId))
+    setSelectedProductIds(prev => prev.filter(id => id !== productId))
   }
 
   const calculateTotal = () => {

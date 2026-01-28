@@ -1,7 +1,5 @@
 'use client'
 
-import { Products } from '@/interfaces/products'
-import { useQuery } from '@tanstack/react-query'
 import { CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
 const data = [
   { mes: 'Ene', ventas: 1200 },
@@ -13,8 +11,6 @@ const data = [
 ]
 
 export default function SalesChart() {
- 
-
   return (
     <div className='bg-white rounded-xl shadow-sm p-6 border border-slate-200'>
       <h2 className='text-lg font-semibold mb-4 text-slate-900'>Ventas Mensuales</h2>

@@ -2,7 +2,6 @@
 
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { Products } from '@/interfaces/products'
-import CloudUploadIcon from '@mui/icons-material/CloudUpload'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useEffect, useRef, useState } from 'react'
 
@@ -213,7 +212,7 @@ export default function EditProductModal({ open, onClose, product }: Props) {
     const units = normalizeNumber(unitPackages)
     const currentPkg = normalizeNumber(packages)
 
-    // Logic: 
+    // Logic:
     // New Stock = Current Available Stock + (Added Packages * Units per Package)
     // New Total Packages = Current Total Packages + Added Packages
 
@@ -277,8 +276,6 @@ export default function EditProductModal({ open, onClose, product }: Props) {
           <DialogTitle className='text-2xl font-semibold'>Editar Producto</DialogTitle>
         </DialogHeader>
 
-
-
         <div className='space-y-3'>
           <div>
             <label className='text-xs font-semibold text-slate-500'>Nombre del Producto</label>
@@ -298,18 +295,11 @@ export default function EditProductModal({ open, onClose, product }: Props) {
             </div>
             <div className='rounded-md'>
               <label className='text-xs font-bold text-green-700 uppercase'>+ Agregar Paquete</label>
-              <input
-                type='text'
-                placeholder='0'
-                value={formatThousands(addedPackages)}
-                onChange={e => setAddedPackages(formatThousands(e.target.value))}
-                className='w-full border border-green-300 shadow-sm rounded px-3 py-2 focus:ring-green-500 focus:border-green-500'
-              />
+              <input type='text' placeholder='0' value={formatThousands(addedPackages)} onChange={e => setAddedPackages(formatThousands(e.target.value))} className='w-full border border-green-300 shadow-sm rounded px-3 py-2 focus:ring-green-500 focus:border-green-500' />
             </div>
           </div>
 
           <div className='grid grid-cols-2 gap-2'>
-
             <div>
               <label className='text-xs font-semibold text-slate-500'>Unidades por Paquete</label>
               <input type='text' placeholder='Unidades por paquete' className={`w-full border border-slate-200 shadow rounded px-3 py-2`} value={formatThousands(unitPackages)} onChange={e => setUnitPackages(formatThousands(e.target.value))} />
@@ -322,21 +312,17 @@ export default function EditProductModal({ open, onClose, product }: Props) {
 
           <div className='grid grid-cols-9 gap-2'>
             <div className='rounded-md p-4 border border-slate-300 col-span-3'>
-              <p className='text-xs font-semibold text-slate-800'>
-                Precio por unidad (costo real)
-              </p>
+              <p className='text-xs font-semibold text-slate-800'>Precio por unidad (costo real)</p>
               <strong className='font-bold text-2xl text-slate-900'>{formatCurrency(unitPrice)}</strong>
             </div>
 
             <div className='rounded-md p-4 border border-slate-300 col-span-3'>
-              <p className='text-xs font-semibold text-slate-800'>
-                Stock Actual:
-              </p>
+              <p className='text-xs font-semibold text-slate-800'>Stock Actual:</p>
               <div className='flex items-center gap-2'>
                 <strong className='font-bold text-2xl text-slate-900'>{formatNumber(totalStock)}</strong>
                 {normalizeNumber(addedPackages) > 0 && (
                   <div className='text-green-600 font-semibold text-2xl'>
-                    (+{formatNumber(normalizeNumber(addedPackages) * normalizeNumber(unitPackages))}): <strong>{formatNumber(totalStock + (normalizeNumber(addedPackages) * normalizeNumber(unitPackages)))}</strong>
+                    (+{formatNumber(normalizeNumber(addedPackages) * normalizeNumber(unitPackages))}): <strong>{formatNumber(totalStock + normalizeNumber(addedPackages) * normalizeNumber(unitPackages))}</strong>
                   </div>
                 )}
               </div>
@@ -387,7 +373,6 @@ export default function EditProductModal({ open, onClose, product }: Props) {
               </label>
             </div>
           </div> */}
-
         </div>
 
         <DialogFooter>

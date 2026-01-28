@@ -3,6 +3,7 @@
 import { useTheme } from '@/context/useTheme'
 import { Products } from '@/interfaces/products'
 import AddIcon from '@mui/icons-material/Add'
+import CheckIcon from '@mui/icons-material/Check'
 import { useRef, useState } from 'react'
 
 interface ProductCardProps extends Products {
@@ -12,11 +13,14 @@ interface ProductCardProps extends Products {
 
 export default function ProductCard({ id, image, name, price, stock, urlImage, onEdit, details }: ProductCardProps) {
   const [quantity, setQuantity] = useState(0)
-  const { setActiveTotal, setSelectedProductId, selectedProductId } = useTheme()
+  const { setActiveTotal, setSelectedProductId, selectedProductId, selectedProductIds } = useTheme()
   const prevQuantity = useRef(0)
 
   const agotado = stock === 0
   const src = image && image.trim() ? image : urlImage && urlImage.trim() ? urlImage : null
+
+  // Verificar si este producto está seleccionado
+  const isSelected = selectedProductIds.includes(id)
 
   const formatPrice = (value: number) => {
     return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')
@@ -63,7 +67,7 @@ export default function ProductCard({ id, image, name, price, stock, urlImage, o
       <div className='flex justify-center items-center mt-4'>
         <div className='flex items-center w-full'>
           <button
-            className='w-full h-8 cursor-pointer bg-slate-900 text-white rounded-md text-sm hover:bg-slate-700 transition'
+            className={`w-full h-8 cursor-pointer rounded-md text-sm transition bg-slate-900 hover:bg-slate-700 text-white`}
             onClick={e => {
               e.stopPropagation()
               // abrir el panel lateral y establecer el id seleccionado
@@ -71,7 +75,7 @@ export default function ProductCard({ id, image, name, price, stock, urlImage, o
               setActiveTotal(true)
             }}
           >
-            <AddIcon />
+            {isSelected ? <CheckIcon /> : <AddIcon />}
           </button>
         </div>
       </div>

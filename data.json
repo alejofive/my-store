@@ -22,7 +22,7 @@
     {
       "name": "pepito",
       "price": 2000,
-      "stock": 270,
+      "stock": 250,
       "image": "",
       "urlImage": "https://www.sigo.com.ve/images/thumbs/0003927_snack-pepito-frito-lay-180-gr_450.jpeg",
       "details": {
@@ -31,8 +31,8 @@
         "packageCost": "12000",
         "basePrice": 800,
         "profitPerUnit": 1200,
-        "sold": 30,
-        "totalProfit": 36000,
+        "sold": 50,
+        "totalProfit": 60000,
         "totalCost": 240000,
         "currency": "COP"
       },

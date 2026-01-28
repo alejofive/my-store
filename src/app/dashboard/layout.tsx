@@ -13,6 +13,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           <Navbar />
           {children}
         </div>
+
         <SidebarTotal />
       </ReactQueryProvider>
     </div>

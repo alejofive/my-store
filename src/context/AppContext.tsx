@@ -1,15 +1,17 @@
 'use client'
 
-import { createContext, ReactNode, useState } from 'react'
+import { createContext, Dispatch, ReactNode, SetStateAction, useState } from 'react'
 
 // Definir el tipo de datos del contexto
 interface ThemeContextType {
   theme: 'light' | 'dark'
   toggleTheme: () => void
   activeTotal: boolean
-  setActiveTotal: (active: boolean) => void
+  setActiveTotal: Dispatch<SetStateAction<boolean>>
   selectedProductId: string | number | null
-  setSelectedProductId: (id: string | number | null) => void
+  setSelectedProductId: Dispatch<SetStateAction<string | number | null>>
+  selectedProductIds: (string | number)[]
+  setSelectedProductIds: Dispatch<SetStateAction<(string | number)[]>>
 }
 
 // Crear el contexto con un valor inicial undefined
@@ -21,10 +23,11 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
 
   const [activeTotal, setActiveTotal] = useState(false)
   const [selectedProductId, setSelectedProductId] = useState<string | number | null>(null)
+  const [selectedProductIds, setSelectedProductIds] = useState<(string | number)[]>([])
 
   const toggleTheme = () => {
     setTheme(prev => (prev === 'light' ? 'dark' : 'light'))
   }
 
-  return <ThemeContext.Provider value={{ theme, toggleTheme, activeTotal, setActiveTotal, selectedProductId, setSelectedProductId }}>{children}</ThemeContext.Provider>
+  return <ThemeContext.Provider value={{ theme, toggleTheme, activeTotal, setActiveTotal, selectedProductId, setSelectedProductId, selectedProductIds, setSelectedProductIds }}>{children}</ThemeContext.Provider>
 }
