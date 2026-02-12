@@ -231,11 +231,13 @@ export default function CreateProductModal({ open, onClose }: { open: boolean; o
           </div>
 
           <div>
+            <label className='text-xs font-semibold text-slate-500'>Costo por Paquete</label>
             <input type='number' placeholder='Costo del paquete' value={packageCost} onChange={e => setPackageCost(formatThousands(e.target.value))} className='w-full border shadow rounded border-slate-300 px-3 py-2' />
           </div>
 
           <div className='grid grid-cols-9 gap-2'>
             <div className='rounded-md p-4 border border-slate-300 col-span-3'>
+
               <p className='text-xs font-semibold text-slate-800'>Precio por unidad (costo real)</p>
               <strong className='font-bold text-2xl text-slate-900'>{formatCurrency(unitPrice)}</strong>
             </div>
@@ -253,12 +255,14 @@ export default function CreateProductModal({ open, onClose }: { open: boolean; o
             </div>
 
             <div className='rounded-md p-4 border border-slate-300 col-span-3'>
+
               <p className='text-xs font-semibold text-slate-800'>Costo total de compra:</p>
               <strong className='font-bold text-2xl text-slate-900'>{formatCurrency(totalCost)}</strong>
             </div>
           </div>
 
           <div>
+            <label className='text-xs font-semibold text-slate-500'>Precio Final (Venta)</label>
             <input type='number' placeholder='Precio final del producto' value={profit} onChange={e => setProfit(formatThousands(e.target.value))} className='w-full border shadow rounded border-slate-300 px-3 py-2' />
 
             {profit !== '' &&

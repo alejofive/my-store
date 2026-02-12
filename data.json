@@ -1,9 +1,10 @@
 {
+  "withdrawals": [],
   "products": [
     {
       "name": "Doritos",
       "price": 2500,
-      "stock": 80,
+      "stock": 77,
       "image": "",
       "urlImage": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ3TcVktqKVVlZrKtABQfInMx1NbNUF3T6rVQ&s",
       "details": {
@@ -12,8 +13,8 @@
         "packageCost": "16000",
         "basePrice": 1333.3333333333333,
         "profitPerUnit": 1166.6666666666667,
-        "sold": 39,
-        "totalProfit": 45500,
+        "sold": 42,
+        "totalProfit": 48999.99999999999,
         "totalCost": 112000,
         "currency": "COP"
       },
@@ -22,7 +23,7 @@
     {
       "name": "pepito",
       "price": 2000,
-      "stock": 250,
+      "stock": 248,
       "image": "",
       "urlImage": "https://www.sigo.com.ve/images/thumbs/0003927_snack-pepito-frito-lay-180-gr_450.jpeg",
       "details": {
@@ -31,8 +32,8 @@
         "packageCost": "12000",
         "basePrice": 800,
         "profitPerUnit": 1200,
-        "sold": 50,
-        "totalProfit": 60000,
+        "sold": 52,
+        "totalProfit": 62400,
         "totalCost": 240000,
         "currency": "COP"
       },
@@ -41,7 +42,7 @@
     {
       "name": "cheese tris 2",
       "price": 3000,
-      "stock": 7,
+      "stock": 5,
       "image": "",
       "urlImage": "https://lh3.googleusercontent.com/uaram3idMY8nyWwahT2Fk3KW2mfds6p4sreOKyEH3ly_qv3fQ2QLV5sz88m3CxfcCoPe3vQ6iselB2WQq9Q_Lwe-Zvn9_xXKDkjB5hyH4x33_xrapA",
       "details": {
@@ -50,8 +51,8 @@
         "packageCost": "20000",
         "basePrice": 2500,
         "profitPerUnit": 500,
-        "sold": 19,
-        "totalProfit": 9500,
+        "sold": 21,
+        "totalProfit": 10500,
         "totalCost": 260000,
         "currency": "COP"
       },
@@ -60,7 +61,7 @@
     {
       "name": "Cheetos",
       "price": 4000,
-      "stock": 230,
+      "stock": 229,
       "image": "",
       "urlImage": "https://americanuncle.es/cdn/shop/products/Cheetos-Crunchy-Flamin-Hot-56g.jpg?v=1640104836&width=1080",
       "details": {
@@ -69,8 +70,8 @@
         "packageCost": "30.000",
         "basePrice": 2500,
         "profitPerUnit": 1500,
-        "sold": 15,
-        "totalProfit": 22500,
+        "sold": 16,
+        "totalProfit": 24000,
         "totalCost": 600000,
         "currency": "COP"
       },
@@ -301,6 +302,27 @@
               "name": "cheese tris 2",
               "price": 3000,
               "quantity": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "55650f28-02a7-412f-bfae-de383c6ae697",
+      "name": "Rodrigo ",
+      "typeMony": "COP",
+      "movements": [
+        {
+          "id": "3c936d1a-e558-4655-acb7-c3cf55fbdf03",
+          "date": "2026-01-28T15:21:14.370Z",
+          "concept": "pepito",
+          "amount": 2500,
+          "products": [
+            {
+              "id": "4564",
+              "name": "Doritos",
+              "price": 2500,
+              "quantity": 1
             }
           ]
         }

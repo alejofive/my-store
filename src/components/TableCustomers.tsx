@@ -2,10 +2,10 @@ import { Person } from '@/interfaces/products'
 import AddIcon from '@mui/icons-material/Add'
 import SearchIcon from '@mui/icons-material/Search'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
-import React, { useState } from 'react'
+import { useState } from 'react'
+import { CustomerRow } from './CustomerRow'
 import { EditCustomersModal } from './customers/EditCustomers'
 import { PayCustomersModal } from './customers/payCustomers'
-import { CustomerRow } from './CustomerRow'
 
 const TableCustomers = () => {
   const queryClient = useQueryClient()
@@ -76,10 +76,10 @@ const TableCustomers = () => {
             // Get current product data
             const productRes = await fetch(`http://localhost:3000/products/${product.id}`)
             if (!productRes.ok) continue
-            
+
             const currentProduct = await productRes.json()
             const details = currentProduct.details ?? {}
-            
+
             const qty = Number(product.quantity || 1)
             const currentStock = Number(currentProduct.stock ?? 0)
             const newStock = Math.max(0, currentStock - qty)
@@ -87,9 +87,7 @@ const TableCustomers = () => {
             const sold = currentSold + qty
 
             // Calculate profit per unit
-            const profitPerUnit = typeof details.profitPerUnit === 'number' 
-              ? details.profitPerUnit 
-              : Number(currentProduct.price ?? 0) - Number(details.basePrice ?? 0)
+            const profitPerUnit = typeof details.profitPerUnit === 'number' ? details.profitPerUnit : Number(currentProduct.price ?? 0) - Number(details.basePrice ?? 0)
 
             const addedProfit = (profitPerUnit || 0) * qty
             const totalProfit = Number(details.totalProfit ?? 0) + addedProfit
@@ -130,8 +128,8 @@ const TableCustomers = () => {
         id: crypto.randomUUID(),
         date: new Date().toISOString(),
         concept: 'Pago total',
-        amount: -saldo
-      }
+        amount: -saldo,
+      },
     ]
 
     try {
@@ -140,7 +138,7 @@ const TableCustomers = () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           name: person.name,
-          movements: updatedMovements
+          movements: updatedMovements,
         }),
       })
 
@@ -185,29 +183,14 @@ const TableCustomers = () => {
 
           <tbody>
             {people.map(person => (
-              <CustomerRow
-                key={person.id}
-                person={person}
-                isOpen={openPersonId === person.id}
-                togglePerson={togglePerson}
-                onPay={handleOpenPayModal}
-                onUpdate={() => refetch()}
-                onEdit={handleEdit}
-                onReset={handleReset}
-                onPayAll={handlePayAll}
-              />
+              <CustomerRow key={person.id} person={person} isOpen={openPersonId === person.id} togglePerson={togglePerson} onPay={handleOpenPayModal} onUpdate={() => refetch()} onEdit={handleEdit} onReset={handleReset} onPayAll={handlePayAll} />
             ))}
           </tbody>
         </table>
       </div>
 
-      <EditCustomersModal
-        onAdd={() => { }}
-        open={openModal}
-        onClose={() => setOpenModal(false)}
-        person={editingPerson}
-      />
-      <PayCustomersModal onAdd={() => { }} open={openModalPay} onClose={handleClosePayModal} person={selectedPerson} />
+      <EditCustomersModal onAdd={() => {}} open={openModal} onClose={() => setOpenModal(false)} person={editingPerson} />
+      <PayCustomersModal onAdd={() => {}} open={openModalPay} onClose={handleClosePayModal} person={selectedPerson} />
     </div>
   )
 }
