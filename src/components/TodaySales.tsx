@@ -47,7 +47,7 @@ export default function TodaySales() {
     return (
         <div className='bg-white rounded-xl shadow-sm p-6 border border-slate-200'>
             <div className="flex items-center justify-between mb-4">
-                <h2 className='text-lg font-semibold text-slate-900'>Ventas de Hoy</h2>
+                <h2 className='text-lg font-semibold text-slate-900'>Resumen de ventas</h2>
                 <div className="text-right">
                     <p className="text-xs text-slate-500 uppercase tracking-wide">Total ganado</p>
                     <p className="text-xl font-bold text-emerald-600">{formatCurrency(totalEarnings)}</p>
