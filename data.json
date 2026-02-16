@@ -1,10 +1,21 @@
 {
-  "withdrawals": [],
+  "withdrawals": [
+    {
+      "id": "d56c",
+      "amount": 5000,
+      "date": "2026-02-15T14:03:23.478Z"
+    },
+    {
+      "id": "5441",
+      "amount": 35000,
+      "date": "2026-02-16T14:19:07.335Z"
+    }
+  ],
   "products": [
     {
       "name": "Doritos",
       "price": 2500,
-      "stock": 77,
+      "stock": 75,
       "image": "",
       "urlImage": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ3TcVktqKVVlZrKtABQfInMx1NbNUF3T6rVQ&s",
       "details": {
@@ -13,8 +24,8 @@
         "packageCost": "16000",
         "basePrice": 1333.3333333333333,
         "profitPerUnit": 1166.6666666666667,
-        "sold": 42,
-        "totalProfit": 48999.99999999999,
+        "sold": 44,
+        "totalProfit": 51333.33333333332,
         "totalCost": 112000,
         "currency": "COP"
       },
@@ -76,6 +87,25 @@
         "currency": "COP"
       },
       "id": "9e3f"
+    },
+    {
+      "id": "85e6",
+      "name": "caramelos ",
+      "price": 800,
+      "stock": 80,
+      "image": "",
+      "urlImage": "https://sambil.sigo.com.ve/images/thumbs/0018131_caramelo-de-menta-guli-20-gr_450.jpeg",
+      "details": {
+        "packages": "4",
+        "unitPackages": "20",
+        "packageCost": "8.000",
+        "basePrice": 400,
+        "profitPerUnit": 400,
+        "sold": 0,
+        "totalProfit": 0,
+        "totalCost": 32000,
+        "currency": "COP"
+      }
     }
   ],
   "customers": [
@@ -325,6 +355,24 @@
               "quantity": 1
             }
           ]
+        },
+        {
+          "id": "1771164262599",
+          "date": "15/2/2026",
+          "concept": "Abono",
+          "amount": -1000
+        },
+        {
+          "id": "1771164277583",
+          "date": "15/2/2026",
+          "concept": "Abono",
+          "amount": -500
+        },
+        {
+          "id": "d6758cef-44f9-4952-a7c2-dd04a3e02242",
+          "date": "2026-02-15T14:04:53.415Z",
+          "concept": "Pago total",
+          "amount": -1000
         }
       ]
     }

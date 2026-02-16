@@ -3,6 +3,8 @@
 import DailySalesCard from '@/components/DailySalesCard'
 import DashboardStats from '@/components/DashboardStats'
 import MonyWithdrawal from '@/components/MonyWithdrawal'
+import SalesChart from '@/components/SalesChart'
+import TodaySales from '@/components/TodaySales'
 
 const page = () => {
 
@@ -19,10 +21,10 @@ const page = () => {
         </div>
 
         <div className='col-span-3'>
-          <MonyWithdrawal />
+          <TodaySales />
         </div>
         <div className='col-span-3'>
-          <div>hds</div>
+          <MonyWithdrawal />
         </div>
       </div>
     </div>
